@@ -9,10 +9,12 @@
 extern struct Z80* state;
 
 extern struct GB_Memory_8	*bios;
-extern struct GB_Memory_16	*rom;
+extern struct GB_Memory_8	*rom;
 extern struct GB_Memory_8	*wram;
 extern struct GB_Memory_8	*eram;
 extern struct GB_Memory_8	*zram;
+
+void run_loop();
 
 struct Z80 *getState();
 

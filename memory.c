@@ -15,11 +15,11 @@ void add_memory_bios(int addr, uint8_t value)
 	HASH_ADD_INT(bios, addr, s);
 }
 
-void add_memory_rom(int addr, uint16_t value)
+void add_memory_rom(int addr, uint8_t value)
 {
-	struct GB_Memory_16 *s;
+	struct GB_Memory_8 *s;
 
-	s = malloc(sizeof(struct GB_Memory_16));
+	s = malloc(sizeof(struct GB_Memory_8));
 	s->addr = addr;
 	s->value = value;
 	HASH_ADD_INT(rom, addr, s);

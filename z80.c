@@ -6,16 +6,115 @@ void init_state(struct Z80* state)
 {
 }
 
-// Add E to A (ADD A, E)
+void add_rb(struct Z80* state)
+{
+/*
+	state->Reg.a += state->Reg.b; state->Reg.f = 0;
+	if (!(state->Reg.a & 255)) state->Reg.f |= 0x80;
+	if (state->Reg.a > 255) state->Reg.f |= 0x10;
+	state->Reg.a &= 255; state->Reg.m = 1; state->Reg.t = 4;
+*/
+	int a = state->Reg.a;
+	state->Reg.a += state->Reg.b;
+	state->Reg.f = (state->Reg.a > 255) ? 0x10 : 0;
+	state->Reg.a &= 255;
+	if (!state->Reg.a) state->Reg.f |= 0x80;
+	if ((state->Reg.a^state->Reg.b^a) & 0x10)
+	state->Reg.f |= 0x20; state->Reg.m = 1;
+}
+
+void add_rc(struct Z80* state)
+{
+	int a = state->Reg.a;
+	state->Reg.a += state->Reg.c;
+	state->Reg.f = (state->Reg.a > 255) ? 0x10 : 0;
+	state->Reg.a &= 255;
+	if (!state->Reg.a) state->Reg.f |= 0x80;
+	if ((state->Reg.a^state->Reg.c^a) & 0x10)
+	state->Reg.f |= 0x20; state->Reg.m = 1;
+
+}
+
+void add_rd(struct Z80* state)
+{
+	int a = state->Reg.a;
+	state->Reg.a += state->Reg.d;
+	state->Reg.f = (state->Reg.a > 255) ? 0x10 : 0;
+	state->Reg.a &= 255;
+	if (!state->Reg.a) state->Reg.f |= 0x80;
+	if ((state->Reg.a^state->Reg.d^a) & 0x10)
+	state->Reg.f |= 0x20; state->Reg.m = 1;
+}
+
 void add_re(struct Z80* state)
 {
+	int a = state->Reg.a;
 	state->Reg.a += state->Reg.e;
-	state->Reg.f = 0;
-	if (!(state->Reg.a & 255)) state->Reg.f |= 0x80;	// Check for zero
-	if (state->Reg.a > 255) state->Reg.f |= 0x10;	// Check for carry
-	state->Reg.a &= 255;				// Mask to 8-bits
-	state->Reg.m = 1; state->Reg.t = 4;		// 1 M-time taken
+	state->Reg.f = (state->Reg.a > 255) ? 0x10 : 0;
+	state->Reg.a &= 255;
+	if (!state->Reg.a) state->Reg.f |= 0x80;
+	if ((state->Reg.a^state->Reg.e^a) & 0x10)
+	state->Reg.f |= 0x20; state->Reg.m = 1;
 }
+
+void add_rh(struct Z80* state)
+{
+	int a = state->Reg.a;
+	state->Reg.a += state->Reg.h;
+	state->Reg.f = (state->Reg.a > 255) ? 0x10 : 0;
+	state->Reg.a &= 255;
+	if (!state->Reg.a) state->Reg.f |= 0x80;
+	if ((state->Reg.a^state->Reg.h^a) & 0x10)
+	state->Reg.f |= 0x20; state->Reg.m = 1;
+}
+
+void add_rl(struct Z80* state)
+{
+	int a = state->Reg.a;
+	state->Reg.a += state->Reg.l;
+	state->Reg.f = (state->Reg.a > 255) ? 0x10 : 0;
+	state->Reg.a &= 255;
+	if (!state->Reg.a) state->Reg.f |= 0x80;
+	if ((state->Reg.a^state->Reg.l^a) & 0x10)
+	state->Reg.f |= 0x20; state->Reg.m = 1;
+}
+
+void add_ra(struct Z80* state)
+{
+	int a = state->Reg.a;
+	state->Reg.a += state->Reg.a;
+	state->Reg.f = (state->Reg.a > 255) ? 0x10 : 0;
+	state->Reg.a &= 255;
+	if (!state->Reg.a) state->Reg.f |= 0x80;
+	if ((state->Reg.a^state->Reg.a^a) & 0x10)
+	state->Reg.f |= 0x20; state->Reg.m = 1;
+}
+
+void add_hl(struct Z80* state)
+{
+	int a = state->Reg.a;
+	int m = read_byte((state->Reg.h<<8) + state->Reg.l);	
+	state->Reg.a += m;
+	state->Reg.f = (state->Reg.a > 255) ? 0x10 : 0;
+	state->Reg.a &= 255;
+	if (!state->Reg.a) state->Reg.f |= 0x80;
+	if ((state->Reg.a^a^m) & 0x10) state->Reg.f |= 0x20;
+	state->Reg.m = 2;
+}
+
+void add_n(struct Z80* state);
+
+void add_hlbc(struct Z80* state);
+
+void add_hlde(struct Z80* state);
+
+void add_hlhl(struct Z80* state);
+
+void add_hlsp(struct Z80* state);
+
+void add_spn(struct Z80* state);
+
+
 
 // Compare B to A (CP A, B)
 void cp_rb(struct Z80* state)

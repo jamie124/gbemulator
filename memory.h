@@ -19,7 +19,7 @@ struct GB_Memory_16 {
 };
 
 void add_memory_bios(int addr, uint8_t value);
-void add_memory_rom(int addr, uint16_t value);
+void add_memory_rom(int addr, uint8_t value);
 void add_memory_wram(int addr, uint8_t value);
 void add_memory_eram(int addr, uint8_t value);
 void add_memory_zram(int addr, uint8_t value);

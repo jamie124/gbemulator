@@ -9,7 +9,7 @@
 #include "ut/utarray.h"
 
 struct GB_Memory_8	*bios 	= NULL;
-struct GB_Memory_16	*rom	= NULL;
+struct GB_Memory_8	*rom	= NULL;
 struct GB_Memory_8	*wram	= NULL;
 struct GB_Memory_8	*eram	= NULL;
 struct GB_Memory_8	*zram	= NULL;
@@ -18,7 +18,7 @@ int IN_BIOS = 1;
 
 struct Z80 		*state;
 
-uint16_t		*fileBuffer;
+uint8_t		*fileBuffer;
 
 int main(int argc, char *argv[])
 {	
@@ -33,10 +33,14 @@ int main(int argc, char *argv[])
 	unsigned long fileLength = load_file("test.gb");
 
 	if (fileLength > 0) {
-		process_file(fileLength/2);
+		process_file(fileLength);
 	}
 
 	printf("Number of records in ROM %u\n", HASH_COUNT(rom));
+
+	// Start executing instructions
+	run_loop();
+
 	
 	free(state);
 
@@ -51,7 +55,7 @@ int main(int argc, char *argv[])
 	}
 	if (rom != NULL){
 		printf("Freeing rom\n");
-		clear_memory_16(rom);	
+		clear_memory_8(rom);	
 	}
 	
 	if (wram != NULL){
@@ -70,6 +74,17 @@ int main(int argc, char *argv[])
 	}
 
 	return 0;
+}
+
+// Main run loop
+void run_loop()
+{
+	while (1) {
+		state->Reg.pc &= 65535;
+		state->Clock.m += state->Reg.m;
+		state->Clock.t += state->Reg.t;
+
+	}
 }
 
 struct Z80 *getState()
@@ -95,7 +110,7 @@ long load_file(char *filename)
 	fseek(file, 0, SEEK_SET);
 		
 	// Allocate memory
-	fileBuffer = (uint16_t*)malloc(fileLength);
+	fileBuffer = (uint8_t*)malloc(fileLength);
 	
 	
 	if (!fileBuffer) {
@@ -105,7 +120,7 @@ long load_file(char *filename)
 	}
 
 	// Read contents into buffer
-	fread(fileBuffer, 2, fileLength, file);
+	fread(fileBuffer, 1, fileLength, file);
 	fclose(file);
 	
 	printf("File is %lu bytes long.\n", fileLength);
@@ -124,8 +139,8 @@ void process_file(unsigned long fileLength)
 	}
 
 	long i;
-	for(i = 0;i < (fileLength - 1);i++){
-//		printf("%x ", fileBuffer[i]);
+	for(i = 0;i < (fileLength);i++){
+		//printf("%x ", fileBuffer[i]);
 		add_memory_rom(i, fileBuffer[i]);
 	}
 	

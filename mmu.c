@@ -15,20 +15,20 @@ uint8_t read_byte(int addr)
 					IN_BIOS = 0;
 			}
 			
-			return read_memory_16(rom, addr);
+			return read_memory_8(rom, addr);
 
 		// ROM0
 		case 0x1000:
 		case 0x2000:
 		case 0x3000:
-			return read_memory_16(rom, addr);
+			return read_memory_8(rom, addr);
 		
 		// ROM1 (unbanked) (16K)
 		case 0x4000:
 		case 0x5000:
 		case 0x6000:
 		case 0x7000:
-			return read_memory_16(rom, addr);
+			return read_memory_8(rom, addr);
 
 		// Graphics: VRAM (8K)
 		case 0x8000:

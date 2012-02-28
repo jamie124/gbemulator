@@ -23,8 +23,21 @@ struct Z80 {
 
 void init_state(struct Z80*);
 
-// Add E to A (ADD A, E)
+// Add
+void add_rb(struct Z80*);
+void add_rc(struct Z80*);
+void add_rd(struct Z80*);
 void add_re(struct Z80*);
+void add_rh(struct Z80*);
+void add_rl(struct Z80*);
+void add_ra(struct Z80*);
+void add_hl(struct Z80*);
+void add_n(struct Z80*);
+void add_hlbc(struct Z80*);
+void add_hlde(struct Z80*);
+void add_hlhl(struct Z80*);
+void add_hlsp(struct Z80*);
+void add_spn(struct Z80*);
 
 // Compare B to A (CP A, B)
 void cp_rb(struct Z80*);

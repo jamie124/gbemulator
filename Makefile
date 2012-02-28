@@ -1,5 +1,5 @@
 CFLAGS=-g -Wall 
-OBJECTS=z80.o memory.o mmu.o main.o
+OBJECTS=z80.o memory.o mmu.o gpu.o main.o
 
 all: $(OBJECTS)
 	cc -o gbemulator $(OBJECTS) $(CFLAGS) $(LDFLAGS) 
