@@ -30,6 +30,8 @@ int main(int argc, char *argv[])
 
 	reset(state);		// Make sure it's clean to start with
 
+	load_bios();
+
 	unsigned long fileLength = load_file("test.gb");
 
 	if (fileLength > 0) {
@@ -41,6 +43,8 @@ int main(int argc, char *argv[])
 	// Start executing instructions
 	run_loop();
 
+	//add_rc(state);
+	//print_state(state);
 	
 	free(state);
 
@@ -79,12 +83,21 @@ int main(int argc, char *argv[])
 // Main run loop
 void run_loop()
 {
-	while (1) {
+	int fclk = state->Clock.t + 100;
+
+	do {
+		uint8_t temp = read_byte(state->Reg.pc++);
+
+		printf("%u\n", temp);
+		
 		state->Reg.pc &= 65535;
 		state->Clock.m += state->Reg.m;
-		state->Clock.t += state->Reg.t;
+		state->Clock.t += 1;//state->Reg.t;
 
-	}
+		//step();
+	} while (state->Clock.t < fclk);
+
+	printf("\n");
 }
 
 struct Z80 *getState()
@@ -139,13 +152,59 @@ void process_file(unsigned long fileLength)
 	}
 
 	long i;
-	for(i = 0;i < (fileLength);i++){
-		//printf("%x ", fileBuffer[i]);
+	for(i = 0;i < 100;i++){
+	//	printf("%u ", fileBuffer[i]);
 		add_memory_rom(i, fileBuffer[i]);
 	}
 	
-	printf("Loaded into ROM\n");
+	printf("\nLoaded into ROM\n");
 
+}
+
+// Load the BIOS data into memory
+void load_bios()
+{
+	FILE *file;
+	unsigned long fileLength;
+	
+	// Open file
+	file = fopen("bios.dat", "rb");
+	if (!file) {
+		fprintf(stderr, "Unable to open bios.dat");
+		return -1;
+	}
+
+	// Get file length
+	fseek(file, 0, SEEK_END);
+	fileLength = ftell(file);
+	fseek(file, 0, SEEK_SET);
+		
+	// Allocate memory
+	uint8_t *biosBuffer = (uint8_t*)malloc(fileLength);
+	
+	
+	if (!biosBuffer) {
+		fprintf(stderr, "Memory error.");
+		fclose(file);
+		return -1;
+	}
+
+	// Read contents into buffer
+	fread(biosBuffer, 1, fileLength, file);
+	fclose(file);
+	
+	printf("File is %lu bytes long.\n", fileLength);
+	
+	// Store in BIOS area of memory
+	long i;
+	for(i = 0;i < fileLength;i++){
+		printf("%u ", biosBuffer[i]);
+		add_memory_bios(i, biosBuffer[i]);
+	}
+
+	free(biosBuffer);
+	
+	printf("\nBios was loaded.\n");
 }
 
 // Clear all items from a 8-Bit memory block

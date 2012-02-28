@@ -20,6 +20,7 @@ struct Z80 *getState();
 
 long load_file(char *filename);
 void process_file(unsigned long fileLength);
+void load_bios();
 
 void clear_memory_8(struct GB_Memory_8*);
 void clear_memory_16(struct GB_Memory_16*);

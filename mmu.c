@@ -4,6 +4,8 @@
 
 uint8_t read_byte(int addr)
 {
+	printf("%d: ", addr);
+
 	switch(addr & 0xF000)
 	{
 		// BIOS (256b)/ROM0
