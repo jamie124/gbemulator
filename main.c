@@ -20,6 +20,7 @@ z80_t 		*state;
 
 uint8_t		*fileBuffer;
 
+
 int main(int argc, char *argv[])
 {	
 	// BIOS is unmapped with first instruction above 0x00FF
@@ -80,6 +81,12 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
+// Passes the state pointer to the opcode pointer.
+void process_opcode(OpCodeType opcode)
+{
+	opcode(state);
+}
+
 // Main run loop
 void run_loop()
 {
@@ -89,8 +96,14 @@ void run_loop()
 	do {
 		uint8_t temp = read_byte(state->Reg.pc++);
 
-		printf("%u ", temp);
-		
+		if (opcodes[temp] != NULL) {
+			printf("OPCODE %u| ", temp);
+		//	&opcodes[temp](state);
+			process_opcode(opcodes[temp]);
+		} else {
+			printf("%u| ", temp);
+		}
+
 		state->Reg.pc &= 65535;
 		state->Clock.m += state->Reg.m;
 		state->Clock.t += 1;//state->Reg.t;

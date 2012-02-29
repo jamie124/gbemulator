@@ -14,6 +14,8 @@ extern gb_mem8_t	*wram;
 extern gb_mem8_t	*eram;
 extern gb_mem8_t	*zram;
 
+typedef void (*OpCodeType)(z80_t*);
+
 void run_loop();
 
 z80_t *getState();

@@ -204,7 +204,6 @@ clear_memory_16	main.c	/^void clear_memory_16(gb_mem16_t* memory)$/;"	f
 clear_memory_8	main.c	/^void clear_memory_8(gb_mem8_t* memory)$/;"	f
 copy	ut/utarray.h	/^    ctor_f *copy;$/;"	m	struct:__anon3
 count	ut/uthash.h	/^   unsigned count;$/;"	m	struct:UT_hash_bucket
-cp_rb	z80.c	/^void cp_rb(z80_t* state)$/;"	f
 ctor_f	ut/utarray.h	/^typedef void (ctor_f)(void *dst, const void *src);$/;"	t
 d	ut/utarray.h	/^    char *d;     \/* n slots of size icd->sz*\/$/;"	m	struct:__anon4
 d	ut/utstring.h	/^    char *d;$/;"	m	struct:__anon5
@@ -243,7 +242,6 @@ init_state	z80.c	/^void init_state(z80_t* state)$/;"	f
 key	ut/uthash.h	/^   void *key;                        \/* ptr to enclosing struct's key  *\/$/;"	m	struct:UT_hash_handle
 keylen	ut/uthash.h	/^   unsigned keylen;                  \/* enclosing struct's key len     *\/$/;"	m	struct:UT_hash_handle
 l	z80.h	/^		int a, b, c, d, e, h, l, f;$/;"	m	struct:__anon6::Reg
-lda_mm	z80.c	/^void lda_mm(z80_t* state)$/;"	f
 line	gpu.c	/^int line = 0;$/;"	v
 load_bios	main.c	/^void load_bios()$/;"	f
 load_file	main.c	/^long load_file(char *filename)$/;"	f
@@ -261,17 +259,95 @@ n	ut/utstring.h	/^    size_t n; \/* allocd size *\/$/;"	m	struct:__anon5
 next	ut/uthash.h	/^   void *next;                       \/* next element in app order      *\/$/;"	m	struct:UT_hash_handle
 noexpand	ut/uthash.h	/^   unsigned ineff_expands, noexpand;$/;"	m	struct:UT_hash_table
 nonideal_items	ut/uthash.h	/^   unsigned nonideal_items;$/;"	m	struct:UT_hash_table
-nop	z80.c	/^void nop(z80_t* state)$/;"	f
 num_buckets	ut/uthash.h	/^   unsigned num_buckets, log2_num_buckets;$/;"	m	struct:UT_hash_table
 num_items	ut/uthash.h	/^   unsigned num_items;$/;"	m	struct:UT_hash_table
 oom	ut/utarray.h	42;"	d
 oom	ut/utstring.h	41;"	d
+op_add_hl_bc	z80.c	/^void op_add_hl_bc(z80_t* state)$/;"	f
+op_add_hl_de	z80.c	/^void op_add_hl_de(z80_t* state)$/;"	f
+op_add_hl_hl	z80.c	/^void op_add_hl_hl(z80_t* state)$/;"	f
+op_add_hl_sp	z80.c	/^void op_add_hl_sp(z80_t* state)$/;"	f
+op_ccf	z80.c	/^void op_ccf(z80_t* state)$/;"	f
+op_cpl	z80.c	/^void op_cpl(z80_t* state)$/;"	f
+op_daa	z80.c	/^void op_daa(z80_t* state)$/;"	f
+op_dec_a	z80.c	/^void op_dec_a(z80_t* state)$/;"	f
+op_dec_b	z80.c	/^void op_dec_b(z80_t* state)$/;"	f
+op_dec_bc	z80.c	/^void op_dec_bc(z80_t* state)$/;"	f
+op_dec_c	z80.c	/^void op_dec_c(z80_t* state)$/;"	f
+op_dec_d	z80.c	/^void op_dec_d(z80_t* state)$/;"	f
+op_dec_de	z80.c	/^void op_dec_de(z80_t* state)$/;"	f
+op_dec_e	z80.c	/^void op_dec_e(z80_t* state)$/;"	f
+op_dec_h	z80.c	/^void op_dec_h(z80_t* state)$/;"	f
+op_dec_hl	z80.c	/^void op_dec_hl(z80_t* state)$/;"	f
+op_dec_hl_	z80.c	/^void op_dec_hl_(z80_t* state)$/;"	f
+op_dec_l	z80.c	/^void op_dec_l(z80_t* state)$/;"	f
+op_dec_sp	z80.c	/^void op_dec_sp(z80_t* state)$/;"	f
+op_inc_a	z80.c	/^void op_inc_a(z80_t* state)$/;"	f
+op_inc_b	z80.c	/^void op_inc_b(z80_t* state)$/;"	f
+op_inc_bc	z80.c	/^void op_inc_bc(z80_t* state)$/;"	f
+op_inc_c	z80.c	/^void op_inc_c(z80_t* state)$/;"	f
+op_inc_d	z80.c	/^void op_inc_d(z80_t* state)$/;"	f
+op_inc_de	z80.c	/^void op_inc_de(z80_t* state)$/;"	f
+op_inc_e	z80.c	/^void op_inc_e(z80_t* state)$/;"	f
+op_inc_h	z80.c	/^void op_inc_h(z80_t* state)$/;"	f
+op_inc_hl	z80.c	/^void op_inc_hl(z80_t* state)$/;"	f
+op_inc_hl_	z80.c	/^void op_inc_hl_(z80_t* state)$/;"	f
+op_inc_l	z80.c	/^void op_inc_l(z80_t* state)$/;"	f
+op_inc_sp	z80.c	/^void op_inc_sp(z80_t* state)$/;"	f
+op_jr	z80.c	/^void op_jr(z80_t* state)$/;"	f
+op_jr_c	z80.c	/^void op_jr_c(z80_t* state)$/;"	f
+op_jr_nc	z80.c	/^void op_jr_nc(z80_t* state)$/;"	f
+op_jr_nz	z80.c	/^void op_jr_nz(z80_t* state)$/;"	f
+op_jr_z	z80.c	/^void op_jr_z(z80_t* state)$/;"	f
+op_ld_a_bc	z80.c	/^void op_ld_a_bc(z80_t* state)$/;"	f
+op_ld_a_de	z80.c	/^void op_ld_a_de(z80_t* state)$/;"	f
+op_ld_a_nn	z80.c	/^void op_ld_a_nn(z80_t* state)$/;"	f
+op_ld_b_a	z80.c	/^void op_ld_b_a(z80_t* state)$/;"	f
+op_ld_b_b	z80.c	/^void op_ld_b_b(z80_t* state)$/;"	f
+op_ld_b_c	z80.c	/^void op_ld_b_c(z80_t* state)$/;"	f
+op_ld_b_d	z80.c	/^void op_ld_b_d(z80_t* state)$/;"	f
+op_ld_b_e	z80.c	/^void op_ld_b_e(z80_t* state)$/;"	f
+op_ld_b_h	z80.c	/^void op_ld_b_h(z80_t* state)$/;"	f
+op_ld_b_hl	z80.c	/^void op_ld_b_hl(z80_t* state)$/;"	f
+op_ld_b_l	z80.c	/^void op_ld_b_l(z80_t* state)$/;"	f
+op_ld_b_nn	z80.c	/^void op_ld_b_nn(z80_t* state)$/;"	f
+op_ld_bc_a	z80.c	/^void op_ld_bc_a(z80_t* state)$/;"	f
+op_ld_bc_nn	z80.c	/^void op_ld_bc_nn(z80_t* state)$/;"	f
+op_ld_c_a	z80.c	/^void op_ld_c_a(z80_t* state)$/;"	f
+op_ld_c_b	z80.c	/^void op_ld_c_b(z80_t* state)$/;"	f
+op_ld_c_c	z80.c	/^void op_ld_c_c(z80_t* state)$/;"	f
+op_ld_c_d	z80.c	/^void op_ld_c_d(z80_t* state)$/;"	f
+op_ld_c_e	z80.c	/^void op_ld_c_e(z80_t* state)$/;"	f
+op_ld_c_h	z80.c	/^void op_ld_c_h(z80_t* state)$/;"	f
+op_ld_c_hl	z80.c	/^void op_ld_c_hl(z80_t* state)$/;"	f
+op_ld_c_l	z80.c	/^void op_ld_c_l(z80_t* state)$/;"	f
+op_ld_c_nn	z80.c	/^void op_ld_c_nn(z80_t* state)$/;"	f
+op_ld_d_nn	z80.c	/^void op_ld_d_nn(z80_t* state)$/;"	f
+op_ld_de_a	z80.c	/^void op_ld_de_a(z80_t* state)$/;"	f
+op_ld_de_nn	z80.c	/^void op_ld_de_nn(z80_t* state)$/;"	f
+op_ld_e_nn	z80.c	/^void op_ld_e_nn(z80_t* state)$/;"	f
+op_ld_h_nn	z80.c	/^void op_ld_h_nn(z80_t* state)$/;"	f
+op_ld_hl_nn	z80.c	/^void op_ld_hl_nn(z80_t* state)$/;"	f
+op_ld_hl_nnnn	z80.c	/^void op_ld_hl_nnnn(z80_t* state)$/;"	f
+op_ld_l_nn	z80.c	/^void op_ld_l_nn(z80_t* state)$/;"	f
+op_ld_nn_sp	z80.c	/^void op_ld_nn_sp(z80_t* state)$/;"	f
+op_ld_sp_nn	z80.c	/^void op_ld_sp_nn(z80_t* state)$/;"	f
+op_ldd_a_hl	z80.c	/^void op_ldd_a_hl(z80_t* state)$/;"	f
+op_ldd_hl_a	z80.c	/^void op_ldd_hl_a(z80_t* state)$/;"	f
+op_ldi_a_hl	z80.c	/^void op_ldi_a_hl(z80_t* state)$/;"	f
+op_ldi_hl_a	z80.c	/^void op_ldi_hl_a(z80_t* state)$/;"	f
+op_nop	z80.c	/^void op_nop(z80_t* state)$/;"	f
+op_rl_a	z80.c	/^void op_rl_a(z80_t* state)$/;"	f
+op_rlc_a	z80.c	/^void op_rlc_a(z80_t* state)$/;"	f
+op_rr_a	z80.c	/^void op_rr_a(z80_t* state)$/;"	f
+op_rrc_a	z80.c	/^void op_rrc_a(z80_t* state)$/;"	f
+op_scf	z80.c	/^void op_scf(z80_t* state)$/;"	f
+op_stop	z80.c	/^void op_stop(z80_t* state)$/;"	f
+opcodes	z80.c	/^void *opcodes[256] = {$/;"	v
 pc	z80.h	/^		int pc, sp;$/;"	m	struct:__anon6::Reg
-pop_hl	z80.c	/^void pop_hl(z80_t* state)$/;"	f
 prev	ut/uthash.h	/^   void *prev;                       \/* prev element in app order      *\/$/;"	m	struct:UT_hash_handle
 print_state	z80.c	/^void print_state(z80_t* state)$/;"	f
 process_file	main.c	/^void process_file(unsigned long fileLength)$/;"	f
-push_bc	z80.c	/^void push_bc(z80_t* state)$/;"	f
 read_byte	mmu.c	/^uint8_t read_byte(int addr)$/;"	f
 read_memory_16	memory.c	/^uint16_t read_memory_16(gb_mem16_t* hash, int addr)$/;"	f
 read_memory_8	memory.c	/^uint8_t read_memory_8(gb_mem8_t* hash, int addr)$/;"	f

@@ -9,26 +9,36 @@ void init_state(z80_t* state)
 // 0x00
 void op_nop(z80_t* state)
 {
+	printf("\nop_nop test\n");
+
 	state->Reg.m = 1; 
-	state->Reg.t = 4;
+//	state->Reg.t = 4;
 }
 
 // 0x01
 void op_ld_bc_nn(z80_t* state)
 {
-
+	state->Reg.c = read_byte(state->Reg.pc);
+	state->Reg.b = read_byte(state->Reg.pc+1);
+	state->Reg.pc += 2;
+	state->Reg.m = 3;
 }
 
 // 0x02
 void op_ld_bc_a(z80_t* state)
 {
-
+	write_byte((state->Reg.b << 8) + state->Reg.c, state->Reg.a);
+	state->Reg.m = 2;
 }
 
 // 0x03
 void op_inc_bc(z80_t* state)
 {
+	state->Reg.c = (state->Reg.c + 1) & 255;
+	if (!state->Reg.c)
+		state->Reg.b = (state->Reg.b + 1) & 255;
 
+	state->Reg.m = 1;
 }
 
 // 0x04
