@@ -1,10 +1,10 @@
-// Z80.h
+// z80_t.h
 #ifndef _z80_h
 #define _z80_h
 
 #include "dbg.h"
 
-struct Z80 {
+typedef struct {
 	struct Clock {
 		int m;
 		int t;
@@ -19,38 +19,38 @@ struct Z80 {
 		// Clock
 		int m, t;
 	} Reg;
-} Z80;
+} z80_t;
 
-void init_state(struct Z80*);
+void init_state(z80_t* state);
 
 // Add
-void add_rb(struct Z80*);
-void add_rc(struct Z80*);
-void add_rd(struct Z80*);
-void add_re(struct Z80*);
-void add_rh(struct Z80*);
-void add_rl(struct Z80*);
-void add_ra(struct Z80*);
-void add_hl(struct Z80*);
-void add_n(struct Z80*);
-void add_hlbc(struct Z80*);
-void add_hlde(struct Z80*);
-void add_hlhl(struct Z80*);
-void add_hlsp(struct Z80*);
-void add_spn(struct Z80*);
+void add_rb(z80_t* state);
+void add_rc(z80_t* state);
+void add_rd(z80_t* state);
+void add_re(z80_t* state);
+void add_rh(z80_t* state);
+void add_rl(z80_t* state);
+void add_ra(z80_t* state);
+void add_hl(z80_t* state);
+void add_n(z80_t* state);
+void add_hlbc(z80_t* state);
+void add_hlde(z80_t* state);
+void add_hlhl(z80_t* state);
+void add_hlsp(z80_t* state);
+void add_spn(z80_t* state);
 
 // Compare B to A (CP A, B)
-void cp_rb(struct Z80*);
+void cp_rb(z80_t* state);
 
-void nop(struct Z80*);
+void nop(z80_t* state);
 
-void push_bc(struct Z80* state);		// Pop registers B and C off stack (PUSH BC)
-void pop_hl(struct Z80* state);			// Pop registers H and L off stack (POP HL)
-void lda_mm(struct Z80* state);			// Read a byte from absolute location into A (LD A, addr)
+void push_bc(z80_t* state);		// Pop registers B and C off stack (PUSH BC)
+void pop_hl(z80_t* state);			// Pop registers H and L off stack (POP HL)
+void lda_mm(z80_t* state);			// Read a byte from absolute location into A (LD A, addr)
 
-void reset(struct Z80* state);			// Reset registers
+void reset(z80_t* state);			// Reset registers
 	
 // Testing
-void print_state(struct Z80*);
+void print_state(z80_t* state);
 
 #endif

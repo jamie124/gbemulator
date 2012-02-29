@@ -1,12 +1,12 @@
-// Z80.c
+// z80_t.c
 #include "z80.h"
 #include "mmu.h"
 
-void init_state(struct Z80* state)
+void init_state(z80_t* state)
 {
 }
 
-void add_rb(struct Z80* state)
+void add_rb(z80_t* state)
 {
 /*
 	state->Reg.a += state->Reg.b; state->Reg.f = 0;
@@ -23,7 +23,7 @@ void add_rb(struct Z80* state)
 	state->Reg.f |= 0x20; state->Reg.m = 1;
 }
 
-void add_rc(struct Z80* state)
+void add_rc(z80_t* state)
 {
 	int a = state->Reg.a;
 	state->Reg.a += state->Reg.c;
@@ -35,7 +35,7 @@ void add_rc(struct Z80* state)
 
 }
 
-void add_rd(struct Z80* state)
+void add_rd(z80_t* state)
 {
 	int a = state->Reg.a;
 	state->Reg.a += state->Reg.d;
@@ -46,7 +46,7 @@ void add_rd(struct Z80* state)
 	state->Reg.f |= 0x20; state->Reg.m = 1;
 }
 
-void add_re(struct Z80* state)
+void add_re(z80_t* state)
 {
 	int a = state->Reg.a;
 	state->Reg.a += state->Reg.e;
@@ -57,7 +57,7 @@ void add_re(struct Z80* state)
 	state->Reg.f |= 0x20; state->Reg.m = 1;
 }
 
-void add_rh(struct Z80* state)
+void add_rh(z80_t* state)
 {
 	int a = state->Reg.a;
 	state->Reg.a += state->Reg.h;
@@ -68,7 +68,7 @@ void add_rh(struct Z80* state)
 	state->Reg.f |= 0x20; state->Reg.m = 1;
 }
 
-void add_rl(struct Z80* state)
+void add_rl(z80_t* state)
 {
 	int a = state->Reg.a;
 	state->Reg.a += state->Reg.l;
@@ -79,7 +79,7 @@ void add_rl(struct Z80* state)
 	state->Reg.f |= 0x20; state->Reg.m = 1;
 }
 
-void add_ra(struct Z80* state)
+void add_ra(z80_t* state)
 {
 	int a = state->Reg.a;
 	state->Reg.a += state->Reg.a;
@@ -90,7 +90,7 @@ void add_ra(struct Z80* state)
 	state->Reg.f |= 0x20; state->Reg.m = 1;
 }
 
-void add_hl(struct Z80* state)
+void add_hl(z80_t* state)
 {
 	int a = state->Reg.a;
 	int m = read_byte((state->Reg.h<<8) + state->Reg.l);	
@@ -102,22 +102,22 @@ void add_hl(struct Z80* state)
 	state->Reg.m = 2;
 }
 
-void add_n(struct Z80* state);
+void add_n(z80_t* state);
 
-void add_hlbc(struct Z80* state);
+void add_hlbc(z80_t* state);
 
-void add_hlde(struct Z80* state);
+void add_hlde(z80_t* state);
 
-void add_hlhl(struct Z80* state);
+void add_hlhl(z80_t* state);
 
-void add_hlsp(struct Z80* state);
+void add_hlsp(z80_t* state);
 
-void add_spn(struct Z80* state);
+void add_spn(z80_t* state);
 
 
 
 // Compare B to A (CP A, B)
-void cp_rb(struct Z80* state)
+void cp_rb(z80_t* state)
 {
 	int i = state->Reg.e;				// Temp copy
 	i -= state->Reg.b;				// Subtract b
@@ -127,13 +127,13 @@ void cp_rb(struct Z80* state)
 	state->Reg.m = 1; state->Reg.t = 4;		// 1 M-time taken 
 }
 
-void nop(struct Z80* state)
+void nop(z80_t* state)
 {
 	state->Reg.m = 1; 
 	state->Reg.t = 4;
 }
 
-void push_bc(struct Z80* state)
+void push_bc(z80_t* state)
 {
 	state->Reg.sp--;				// Drop through stack
 	write_byte(state->Reg.sp, state->Reg.b);	// Write b
@@ -142,7 +142,7 @@ void push_bc(struct Z80* state)
 	state->Reg.m = 3; state->Reg.t = 12;		// 3 M-times taken
 }
 
-void pop_hl(struct Z80* state)
+void pop_hl(z80_t* state)
 {
 	state->Reg.l = read_byte(state->Reg.sp);	// Read L
 	state->Reg.sp++;				// Move up stack
@@ -151,7 +151,7 @@ void pop_hl(struct Z80* state)
 	state->Reg.m = 3; state->Reg.t = 12;		// 3 M-times taken
 }
 
-void lda_mm(struct Z80* state)
+void lda_mm(z80_t* state)
 {
 	uint16_t addr = read_word(state->Reg.pc);	// Get address from instruction
 	state->Reg.pc += 2;				// Advance PC
@@ -159,7 +159,7 @@ void lda_mm(struct Z80* state)
 	state->Reg.m = 4; state->Reg.t = 16;		// 4 M-times taken
 }
 
-void reset(struct Z80* state)
+void reset(z80_t* state)
 {
 	state->Reg.a = 0; state->Reg.b = 0; state->Reg.c = 0; state->Reg.d = 0;
 	state->Reg.e = 0; state->Reg.h = 0; state->Reg.l = 0; state->Reg.f = 0;
@@ -169,7 +169,7 @@ void reset(struct Z80* state)
 //	state->Clock.m = 0; state->Clock.t = 0;	
 }
 
-void print_state(struct Z80* state)
+void print_state(z80_t* state)
 {
 	printf("8-Bit Registers:\na=%d, b=%d, c=%d, d=%d, e=%d, h=%d, l=%d, f=%d\n",
 		state->Reg.a, state->Reg.b, state->Reg.c, state->Reg.d, state->Reg.e,

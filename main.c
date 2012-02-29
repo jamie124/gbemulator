@@ -8,15 +8,15 @@
 
 #include "ut/utarray.h"
 
-struct GB_Memory_8	*bios 	= NULL;
-struct GB_Memory_8	*rom	= NULL;
-struct GB_Memory_8	*wram	= NULL;
-struct GB_Memory_8	*eram	= NULL;
-struct GB_Memory_8	*zram	= NULL;
+gb_mem8_t	*bios 	= NULL;
+gb_mem8_t	*rom	= NULL;
+gb_mem8_t	*wram	= NULL;
+gb_mem8_t	*eram	= NULL;
+gb_mem8_t	*zram	= NULL;
 
 int IN_BIOS = 1;
 
-struct Z80 		*state;
+z80_t 		*state;
 
 uint8_t		*fileBuffer;
 
@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 
 	printf("Game Boy Emulator\n");
 
-	state = malloc(sizeof(struct Z80));
+	state = malloc(sizeof(z80_t));
 
 	reset(state);		// Make sure it's clean to start with
 
@@ -100,7 +100,7 @@ void run_loop()
 	printf("\n");
 }
 
-struct Z80 *getState()
+z80_t *getState()
 {
 	return state;
 }
@@ -208,9 +208,9 @@ void load_bios()
 }
 
 // Clear all items from a 8-Bit memory block
-void clear_memory_8(struct GB_Memory_8* memory)
+void clear_memory_8(gb_mem8_t* memory)
 {
-	struct GB_Memory_8* currMemory, *temp;
+	gb_mem8_t* currMemory, *temp;
 
 	HASH_ITER(hh, memory, currMemory, temp) {
 		HASH_DEL(memory, currMemory);
@@ -219,9 +219,9 @@ void clear_memory_8(struct GB_Memory_8* memory)
 }
 
 // Clear all items from a 16-Bit memory block
-void clear_memory_16(struct GB_Memory_16* memory)
+void clear_memory_16(gb_mem16_t* memory)
 {
-	struct GB_Memory_16* currMemory, *temp;
+	gb_mem16_t* currMemory, *temp;
 
 	HASH_ITER(hh, memory, currMemory, temp) {
 		HASH_DEL(memory, currMemory);

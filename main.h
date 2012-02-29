@@ -6,23 +6,23 @@
 #include "z80.h"
 #include "memory.h"
 
-extern struct Z80* state;
+extern z80_t* state;
 
-extern struct GB_Memory_8	*bios;
-extern struct GB_Memory_8	*rom;
-extern struct GB_Memory_8	*wram;
-extern struct GB_Memory_8	*eram;
-extern struct GB_Memory_8	*zram;
+extern gb_mem8_t	*bios;
+extern gb_mem8_t	*rom;
+extern gb_mem8_t	*wram;
+extern gb_mem8_t	*eram;
+extern gb_mem8_t	*zram;
 
 void run_loop();
 
-struct Z80 *getState();
+z80_t *getState();
 
 long load_file(char *filename);
 void process_file(unsigned long fileLength);
 void load_bios();
 
-void clear_memory_8(struct GB_Memory_8*);
-void clear_memory_16(struct GB_Memory_16*);
+void clear_memory_8(gb_mem8_t*);
+void clear_memory_16(gb_mem16_t*);
 
 #endif
