@@ -21,6 +21,8 @@ typedef struct {
 	} Reg;
 } z80_t;
 
+extern void *opcodes[];
+
 void init_state(z80_t* state);
 
 // Add

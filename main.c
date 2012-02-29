@@ -83,12 +83,13 @@ int main(int argc, char *argv[])
 // Main run loop
 void run_loop()
 {
-	int fclk = state->Clock.t + 100;
+	int fclk = state->Clock.t + 256;
 
+	printf("\nOpCodes:\n");
 	do {
 		uint8_t temp = read_byte(state->Reg.pc++);
 
-		printf("%u\n", temp);
+		printf("%u ", temp);
 		
 		state->Reg.pc &= 65535;
 		state->Clock.m += state->Reg.m;
@@ -198,7 +199,7 @@ void load_bios()
 	// Store in BIOS area of memory
 	long i;
 	for(i = 0;i < fileLength;i++){
-		printf("%u ", biosBuffer[i]);
+	//	printf("%u ", biosBuffer[i]);
 		add_memory_bios(i, biosBuffer[i]);
 	}
 
