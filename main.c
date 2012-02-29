@@ -96,13 +96,20 @@ void run_loop()
 	do {
 		uint8_t temp = read_byte(state->Reg.pc++);
 
+//		printf(" %u\n", temp);
+	
+//		if (state->Reg.pc - 1 == 36){
+//			printf("33\n");
+//		}
+		
 		if (opcodes[temp] != NULL) {
-			printf("OPCODE %u| ", temp);
+			printf("OPCODE %u\n", temp);
 		//	&opcodes[temp](state);
 			process_opcode(opcodes[temp]);
 		} else {
-			printf("%u| ", temp);
+			printf("%u\n", temp);
 		}
+		
 
 		state->Reg.pc &= 65535;
 		state->Clock.m += state->Reg.m;
@@ -212,7 +219,7 @@ void load_bios()
 	// Store in BIOS area of memory
 	long i;
 	for(i = 0;i < fileLength;i++){
-	//	printf("%u ", biosBuffer[i]);
+		//printf("%d: %u, ", i, biosBuffer[i]);
 		add_memory_bios(i, biosBuffer[i]);
 	}
 

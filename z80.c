@@ -9,7 +9,7 @@ void init_state(z80_t* state)
 // 0x00
 void op_nop(z80_t* state)
 {
-	printf("\nop_nop test\n");
+	printf("\top_nop test\n");
 
 	state->Reg.m = 1; 
 //	state->Reg.t = 4;
@@ -44,13 +44,19 @@ void op_inc_bc(z80_t* state)
 // 0x04
 void op_inc_b(z80_t* state)
 {
-
+	state->Reg.b++;
+	state->Reg.b &= 255;
+	state->Reg.f = (state->Reg.b ? 0 : 0x80);
+	state->Reg.m = 1;
 }
 
 // 0x05
 void op_dec_b(z80_t* state)
 {
-
+	state->Reg.b--;
+	state->Reg.b &= 255;
+	state->Reg.f = (state->Reg.b ? 0 : 0x80);
+	state->Reg.m = 1;
 }
 
 // 0x06
@@ -92,13 +98,19 @@ void op_dec_bc(z80_t* state)
 // 0xC0
 void op_inc_c(z80_t* state)
 {
-
+	state->Reg.c++;
+	state->Reg.c &= 255;
+	state->Reg.f = (state->Reg.c ? 0 : 0x80);
+	state->Reg.m = 1;
 }
 
 // 0xD0
 void op_dec_c(z80_t* state)
 {
-
+	state->Reg.c--;
+	state->Reg.c &= 255;
+	state->Reg.f = (state->Reg.c ? 0 : 0x80);
+	state->Reg.m = 1;
 }
 
 // 0xE0
@@ -140,13 +152,19 @@ void op_inc_de(z80_t* state)
 // 0x14
 void op_inc_d(z80_t* state)
 {
-
+	state->Reg.d++;
+	state->Reg.d &= 255;
+	state->Reg.f = (state->Reg.d ? 0 : 0x80);
+	state->Reg.m = 1;
 }
  
 // 0x15
 void op_dec_d(z80_t* state)
 {
-
+	state->Reg.d--;
+	state->Reg.d &= 255;
+	state->Reg.f = (state->Reg.d ? 0 : 0x80);
+	state->Reg.m = 1;
 }
 
 // 0x16
@@ -188,13 +206,19 @@ void op_dec_de(z80_t* state)
 // 0x1C
 void op_inc_e(z80_t* state)
 {
-
+	state->Reg.e++;
+	state->Reg.e &= 255;
+	state->Reg.f = (state->Reg.e ? 0 : 0x80);
+	state->Reg.m = 1;
 }
 
 // 0x1D
 void op_dec_e(z80_t* state)
 {
-
+	state->Reg.e--;
+	state->Reg.e &= 255;
+	state->Reg.f = (state->Reg.e ? 0 : 0x80);
+	state->Reg.m = 1;
 }
 
 // 0x1E
@@ -230,19 +254,29 @@ void op_ldi_hl_a(z80_t* state)
 // 0x23
 void op_inc_hl(z80_t* state)
 {
-
+	uint8_t i = read_byte((state->Reg.h<<8) + state->Reg.l) + 1;
+	i &= 255;
+	write_byte((state->Reg.h<<8) + state->Reg.l,i);
+	state->Reg.f = (i ? 0 : 0x80);
+	state->Reg.m = 3;
 }
 
 // 0x24
 void op_inc_h(z80_t* state)
 {
-
+	state->Reg.h++;
+	state->Reg.h &= 255;
+	state->Reg.f = (state->Reg.h ? 0 : 0x80);
+	state->Reg.m = 1;
 }
 
 // 0x25
 void op_dec_h(z80_t* state)
 {
-
+	state->Reg.h--;
+	state->Reg.h &= 255;
+	state->Reg.f = (state->Reg.h ? 0 : 0x80);
+	state->Reg.m = 1;
 }
 
 // 0x26
@@ -278,19 +312,28 @@ void op_ldi_a_hl(z80_t* state)
 // 0x2B
 void op_dec_hl(z80_t* state)
 {
-
+	uint8_t i = read_byte((state->Reg.h << 8) + state->Reg.l) - 1;
+	i &= 255;
+	write_byte((state->Reg.h << 8) + state->Reg.l, i); state->Reg.f = (i ? 0 : 0x80);
+	state->Reg.m = 3;
 }
 
 // 0x2C
 void op_inc_l(z80_t* state)
 {
-
+	state->Reg.l++;
+	state->Reg.l &= 255;
+	state->Reg.f = (state->Reg.l ? 0 : 0x80);
+	state->Reg.m = 1;
 }
 
 // 0x2D
 void op_dec_l(z80_t* state)
 {
-
+	state->Reg.l--;
+	state->Reg.l &= 255;
+	state->Reg.f = (state->Reg.l ? 0 : 0x80);
+	state->Reg.m = 1;
 }
 
 // 0x2E
@@ -380,13 +423,19 @@ void op_dec_sp(z80_t* state)
 // 0x3C
 void op_inc_a(z80_t* state)
 {
-
+	state->Reg.a++;
+	state->Reg.a &= 255;
+	state->Reg.f = (state->Reg.a ? 0 : 0x80);
+	state->Reg.m = 1;
 }
 
 // 0x3D
 void op_dec_a(z80_t* state)
 {
-
+	state->Reg.a--;
+	state->Reg.a &= 255;
+	state->Reg.f = (state->Reg.a ? 0 : 0x80);
+	state->Reg.m = 1;
 }
 
 // 0x3E

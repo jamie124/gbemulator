@@ -13,10 +13,12 @@ uint8_t read_byte(int addr)
 			if (IN_BIOS) {
 				if (addr < 0x0100)
 					return read_memory_8(bios, addr);
-				else if (state->Reg.pc == 0x0100)
+				else if (state->Reg.pc == 0x0100) {
 					IN_BIOS = 0;
+					//return 0;
+				}
 			}
-			
+
 			return read_memory_8(rom, addr);
 
 		// ROM0
@@ -98,7 +100,7 @@ uint16_t read_word(int addr)
 
 void write_byte(int addr, uint8_t val)
 {
-
+	printf("Writing %u to addr %d\n", val, addr);
 }
 
 void write_word(int addr, uint16_t val)

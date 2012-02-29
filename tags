@@ -125,6 +125,7 @@ MUR_TWO_TWO	ut/uthash.h	509;"	d
 NO_DECLTYPE	ut/uthash.h	39;"	d
 NO_DECLTYPE	ut/utlist.h	70;"	d
 OBJECTS	Makefile	/^OBJECTS=z80.o memory.o mmu.o gpu.o main.o$/;"	m
+OpCodeType	main.h	/^typedef void (*OpCodeType)(z80_t*);$/;"	t
 Reg	z80.h	/^	struct Reg {$/;"	s	struct:__anon6
 Reg	z80.h	/^	} Reg;$/;"	m	struct:__anon6	typeref:struct:__anon6::Reg
 UTARRAY_H	ut/utarray.h	28;"	d
@@ -348,6 +349,7 @@ pc	z80.h	/^		int pc, sp;$/;"	m	struct:__anon6::Reg
 prev	ut/uthash.h	/^   void *prev;                       \/* prev element in app order      *\/$/;"	m	struct:UT_hash_handle
 print_state	z80.c	/^void print_state(z80_t* state)$/;"	f
 process_file	main.c	/^void process_file(unsigned long fileLength)$/;"	f
+process_opcode	main.c	/^void process_opcode(OpCodeType opcode)$/;"	f
 read_byte	mmu.c	/^uint8_t read_byte(int addr)$/;"	f
 read_memory_16	memory.c	/^uint16_t read_memory_16(gb_mem16_t* hash, int addr)$/;"	f
 read_memory_8	memory.c	/^uint8_t read_memory_8(gb_mem8_t* hash, int addr)$/;"	f
