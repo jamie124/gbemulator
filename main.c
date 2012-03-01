@@ -90,7 +90,7 @@ void process_opcode(OpCodeType opcode)
 // Main run loop
 void run_loop()
 {
-	int fclk = state->Clock.t + 256;
+	int fclk = state->Clock.t + 70224;
 
 	printf("\nOpCodes:\n");
 	do {
@@ -114,7 +114,7 @@ void run_loop()
 
 		state->Reg.pc &= 65535;
 		state->Clock.m += state->Reg.m;
-		state->Clock.t += 1;//state->Reg.t;
+		state->Clock.t += state->Reg.t;
 
 		//step();
 	} while (state->Clock.t < fclk);
@@ -174,7 +174,7 @@ void process_file(unsigned long fileLength)
 	}
 
 	long i;
-	for(i = 0;i < 100;i++){
+	for(i = 0;i < fileLength;i++){
 	//	printf("%u ", fileBuffer[i]);
 		add_memory_rom(i, fileBuffer[i]);
 	}

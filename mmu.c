@@ -19,6 +19,7 @@ uint8_t read_byte(int addr)
 				}
 			}
 
+			printf("Reading from rom\n");
 			return read_memory_8(rom, addr);
 
 		// ROM0
