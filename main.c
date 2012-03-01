@@ -106,6 +106,7 @@ void run_loop()
 			printf("OPCODE %u\n", temp);
 		//	&opcodes[temp](state);
 			process_opcode(opcodes[temp]);
+			print_state(state);
 		} else {
 			printf("%u\n", temp);
 		}
@@ -192,7 +193,6 @@ void load_bios()
 	file = fopen("bios.dat", "rb");
 	if (!file) {
 		fprintf(stderr, "Unable to open bios.dat");
-		return -1;
 	}
 
 	// Get file length
@@ -207,7 +207,6 @@ void load_bios()
 	if (!biosBuffer) {
 		fprintf(stderr, "Memory error.");
 		fclose(file);
-		return -1;
 	}
 
 	// Read contents into buffer

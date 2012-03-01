@@ -1,11 +1,12 @@
-CFLAGS=-g -Wall 
+CC=cc
+CFLAGS=-g -Wall -Wfatal-errors -std=c99
 OBJECTS=z80.o memory.o mmu.o gpu.o main.o
 
 all: $(OBJECTS)
-	cc -o gbemulator $(OBJECTS) $(CFLAGS) $(LDFLAGS) 
+	$(CC) -o gbemulator $(OBJECTS) $(CFLAGS) $(LDFLAGS) 
 
 %.o: %.c
-	cc -c -o $@ $< $(CFLAGS) $(LDFLAGS)
+	$(CC) -c -o $@ $< $(CFLAGS) $(LDFLAGS)
 
 install: all 
 	install -d $(DESTDIR)/$(PREFIX)/bin/ 

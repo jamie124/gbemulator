@@ -91,6 +91,8 @@ uint8_t read_byte(int addr)
 					}
 			}  
 	}
+
+	return 0;
 }
 
 uint16_t read_word(int addr)

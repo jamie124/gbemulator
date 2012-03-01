@@ -62,10 +62,10 @@ uint8_t read_memory_8(gb_mem8_t* hash, int addr)
 
 	HASH_FIND_INT(hash, &addr, s);
 
-	check_mem(s);
+	//check_mem(s);
 	return s->value;
-error:
-	return 0;
+//error:
+//	return 0;
 }
 
 // Read a value from an 16-bit area of memory
