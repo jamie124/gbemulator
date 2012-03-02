@@ -15,7 +15,7 @@ typedef struct {
 	struct Reg {
 		// 8-bit register
 		uint8_t a, b, c, d, e, h, l, f;
-		// 16-bi register
+		// 16-bit register
 		uint16_t pc, sp;
 		// Clock
 		int m, t;

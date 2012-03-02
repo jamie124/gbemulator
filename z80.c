@@ -356,7 +356,13 @@ void op_ld_hl_nnnn(z80_t* state)
 // 0x22
 void op_ldi_hl_a(z80_t* state)
 {
+	write_byte((state->Reg.h << 8) + state->Reg.l, state->Reg.a);
+	state->Reg.l = (state->Reg.l + 1) & 255;
+	
+	if (!state->Reg.l)
+		state->Reg.h = (state->Reg.h + 1) & 255;
 
+	state->Reg.m = 2; 
 }
 
 // 0x23
@@ -398,25 +404,61 @@ void op_ld_h_nn(z80_t* state)
 // 0x27
 void op_daa(z80_t* state)
 {
+	uint8_t a = state->Reg.a;
+	if ((state->Reg.f & 0x20) || ((state->Reg.a & 15) > 9))
+		state->Reg.a += 6;
+	
+	state->Reg.f &= 0xEF;
+	if ((state->Reg.f & 0x20) || (a > 0x99)) {
+		state->Reg.a += 0x60;
+		state->Reg.f |= 0x10;
+	}
 
+	state->Reg.m = 1;
 }
 
 // 0x28
 void op_jr_z(z80_t* state)
 {
+	uint8_t i = read_byte(state->Reg.pc);
+	if (i > 127)
+		i =- ((~i + 1) &  255);
 
+	state->Reg.pc++;
+	state->Reg.m = 2;
+
+	if ((state->Reg.f & 0x80) == 0x80) {
+		state->Reg.pc += i;
+		state->Reg.m++;
+	}
 }
 
 // 0x29
 void op_add_hl_hl(z80_t* state)
 {
+	uint8_t hl = (state->Reg.h << 8) + state->Reg.l;
+	hl += (state->Reg.h << 8) + state->Reg.l;
 
+	if (hl > 65535)
+		state->Reg.f |= 0x10;
+	else 
+		state->Reg.f &= 0xEF;
+
+	state->Reg.h = (hl >> 8) & 255;
+	state->Reg.h = hl & 255;
+	state->Reg.m = 3;
 }
 
 // 0x2A
 void op_ldi_a_hl(z80_t* state)
 {
+	state->Reg.a = read_byte((state->Reg.h << 8) + state->Reg.l);
+	state->Reg.l = (state->Reg.l + 1) & 255;
 
+	if (!state->Reg.l)
+		state->Reg.h = (state->Reg.h + 1) & 255;
+
+	state->Reg.m = 2;
 }
 
 // 0x2B
@@ -457,79 +499,147 @@ void op_ld_l_nn(z80_t* state)
 // 0x2F
 void op_cpl(z80_t* state)
 {
-
+	state->Reg.a ^= 255;
+	state->Reg.f = (state->Reg.a ? 0 : 0x80);
+	state->Reg.m = 1;
 }
 
 // 0x30
 void op_jr_nc(z80_t* state)
 {
+	uint8_t i = read_byte(state->Reg.pc);
+	if (i > 127) 
+		i -= ((~i + 1) & 255);
 
+	state->Reg.pc++;
+	state->Reg.m = 2;
+
+	if ((state->Reg.f & 0x010) == 0x00) {
+		state->Reg.pc += i;
+		state->Reg.m++;
+	}
 }
 
 // 0x31
 void op_ld_sp_nn(z80_t* state)
 {
-
+	state->Reg.sp = read_word(state->Reg.pc);
+	state->Reg.pc += 2;
+	state->Reg.m = 3;
 }
 
 // 0x32
 void op_ldd_hl_a(z80_t* state)
 {
+	write_byte((state->Reg.h << 8) + state->Reg.l, state->Reg.a);
 
+	state->Reg.l = (state->Reg.l - 1) & 255;
+	
+	if (state->Reg.l == 255)
+		state->Reg.h = (state->Reg.h - 1) & 255;
+	
+	state->Reg.m = 2;
 }
 
 // 0x33
 void op_inc_sp(z80_t* state)
 {
+	state->Reg.sp = (state->Reg.sp + 1) & 65535;
 
+	state->Reg.m = 1;
 }
 
 // 0x34
 void op_inc_hl_(z80_t* state)
 {
-
+	uint8_t i = read_byte((state->Reg.h << 8) + state->Reg.l) + 1;
+	i &= 255;
+	write_byte((state->Reg.h << 8) + state->Reg.l, i);
+	
+	state->Reg.f = (i ? 0 : 0x80);
+	state->Reg.m = 3;
 }
 
 // 0x35
 void op_dec_hl_(z80_t* state)
 {
-
+	uint8_t i = read_byte((state->Reg.h << 8) + state->Reg.l) -1;
+	i &= 255;
+	write_byte((state->Reg.h << 8) + state->Reg.l, i);
+	
+	state->Reg.f = (i ? 0 : 0x80);
+	state->Reg.m = 3;
 }
 
 // 0x36
 void op_ld_hl_nn(z80_t* state)
 {
+	write_byte((state->Reg.h << 8) + state->Reg.l, read_byte(state->Reg.pc));
+	state->Reg.pc++;
 
+	state->Reg.m = 3;
+	
 }
 
 // 0x37
 void op_scf(z80_t* state)
 {
-
+	state->Reg.f |= 0x10;
+	
+	state->Reg.m = 1;
 }
 
 // 0x38
 void op_jr_c(z80_t* state)
 {
+	uint8_t i = read_byte(state->Reg.pc);
+		
+	if (i > 127)
+		i -= ((~i + 1) & 255);
 
+	state->Reg.pc++;
+	
+	if ((state->Reg.f & 0x10) == 0x10) {
+		state->Reg.pc += i;
+		state->Reg.m++;
+	}
 }
 
 // 0x39
 void op_add_hl_sp(z80_t* state)
 {
+	uint8_t hl = (state->Reg.h << 8) + state->Reg.l;
+	hl += state->Reg.sp;
 
+	if (hl > 65535)
+		state->Reg.f |= 0x10;
+	else
+		state->Reg.f &= 0xEF;
+
+	state->Reg.h = (hl >> 8) & 255;
+	state->Reg.l = hl & 255;
+
+	state->Reg.m = 3;
 }
 
 // 0x3A
 void op_ldd_a_hl(z80_t* state)
 {
+	state->Reg.a = read_byte((state->Reg.h << 8) + state->Reg.l);
+	state->Reg.l = (state->Reg.l - 1) & 255;
 
+	if (state->Reg.l == 255)
+		state->Reg.h = (state->Reg.h - 1) & 255;
+
+	state->Reg.m = 2;
 }
 
 // 0x3B
 void op_dec_sp(z80_t* state)
 {
-
+	state->Reg.sp = (state->Reg.sp - 1) & 65535;
+	
+	state->Reg.m = 1;
 }
 
 // 0x3C
