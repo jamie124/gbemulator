@@ -6,6 +6,8 @@
 #include <inttypes.h>
 
 typedef struct {
+	int halt;
+
 	struct Clock {
 		int m;
 		int t;
