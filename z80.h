@@ -7,13 +7,14 @@
 
 typedef struct {
 	int halt;
+	int stop;
 
 	struct Clock {
 		int m;
 		int t;
 	} Clock;
 
-	// Register
+	// Registers
 	struct Reg {
 		// 8-bit register
 		uint8_t a, b, c, d, e, h, l, f;
@@ -21,10 +22,16 @@ typedef struct {
 		uint16_t pc, sp;
 		// Clock
 		int m, t;
+		int ime;
 	} Reg;
+
+	struct Rsv {
+		uint8_t a, b, c, d, e, h, l, f;
+	} Rsv;
 } z80_t;
 
 extern void *opcodes[];
+extern void *cbopcodes[];
 
 void init_state(z80_t* state);
 

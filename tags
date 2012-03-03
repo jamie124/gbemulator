@@ -129,6 +129,8 @@ OBJECTS	Makefile	/^OBJECTS=z80.o memory.o mmu.o gpu.o main.o$/;"	m
 OpCodeType	main.h	/^typedef void (*OpCodeType)(z80_t*);$/;"	t
 Reg	z80.h	/^	struct Reg {$/;"	s	struct:__anon6
 Reg	z80.h	/^	} Reg;$/;"	m	struct:__anon6	typeref:struct:__anon6::Reg
+Rsv	z80.h	/^	struct Rsv {$/;"	s	struct:__anon6
+Rsv	z80.h	/^	} Rsv;$/;"	m	struct:__anon6	typeref:struct:__anon6::Rsv
 UTARRAY_H	ut/utarray.h	28;"	d
 UTARRAY_VERSION	ut/utarray.h	30;"	d
 UTHASH_H	ut/uthash.h	25;"	d
@@ -176,6 +178,7 @@ _mmu_h	mmu.h	3;"	d
 _utarray_eltptr	ut/utarray.h	116;"	d
 _z80_h	z80.h	3;"	d
 a	z80.h	/^		uint8_t a, b, c, d, e, h, l, f;$/;"	m	struct:__anon6::Reg
+a	z80.h	/^		uint8_t a, b, c, d, e, h, l, f;$/;"	m	struct:__anon6::Rsv
 add_memory_bios	memory.c	/^void add_memory_bios(int addr, uint8_t value)$/;"	f
 add_memory_eram	memory.c	/^void add_memory_eram(int addr, uint8_t value)$/;"	f
 add_memory_rom	memory.c	/^void add_memory_rom(int addr, uint8_t value)$/;"	f
@@ -184,12 +187,16 @@ add_memory_zram	memory.c	/^void add_memory_zram(int addr, uint8_t value)$/;"	f
 addr	memory.h	/^	int addr;$/;"	m	struct:__anon1
 addr	memory.h	/^	int addr;$/;"	m	struct:__anon2
 b	z80.h	/^		uint8_t a, b, c, d, e, h, l, f;$/;"	m	struct:__anon6::Reg
+b	z80.h	/^		uint8_t a, b, c, d, e, h, l, f;$/;"	m	struct:__anon6::Rsv
 bios	main.c	/^gb_mem8_t	*bios 	= NULL;$/;"	v
 bloom_bv	ut/uthash.h	/^   uint8_t *bloom_bv;$/;"	m	struct:UT_hash_table
 bloom_nbits	ut/uthash.h	/^   char bloom_nbits;$/;"	m	struct:UT_hash_table
 bloom_sig	ut/uthash.h	/^   uint32_t bloom_sig; \/* used only to test bloom exists in external analysis *\/$/;"	m	struct:UT_hash_table
 buckets	ut/uthash.h	/^   UT_hash_bucket *buckets;$/;"	m	struct:UT_hash_table
 c	z80.h	/^		uint8_t a, b, c, d, e, h, l, f;$/;"	m	struct:__anon6::Reg
+c	z80.h	/^		uint8_t a, b, c, d, e, h, l, f;$/;"	m	struct:__anon6::Rsv
+cb	z80.c	/^void cb(z80_t* state) $/;"	f
+cbopcodes	z80.c	/^void *cbopcodes[256] = {$/;"	v
 check	dbg.h	22;"	d
 check_debug	dbg.h	28;"	d
 check_mem	dbg.h	26;"	d
@@ -202,14 +209,17 @@ ctor_f	ut/utarray.h	/^typedef void (ctor_f)(void *dst, const void *src);$/;"	t
 d	ut/utarray.h	/^    char *d;     \/* n slots of size icd->sz*\/$/;"	m	struct:__anon4
 d	ut/utstring.h	/^    char *d;$/;"	m	struct:__anon5
 d	z80.h	/^		uint8_t a, b, c, d, e, h, l, f;$/;"	m	struct:__anon6::Reg
+d	z80.h	/^		uint8_t a, b, c, d, e, h, l, f;$/;"	m	struct:__anon6::Rsv
 debug	dbg.h	11;"	d
 debug	dbg.h	9;"	d
 dtor	ut/utarray.h	/^    dtor_f *dtor;$/;"	m	struct:__anon3
 dtor_f	ut/utarray.h	/^typedef void (dtor_f)(void *elt);$/;"	t
 e	z80.h	/^		uint8_t a, b, c, d, e, h, l, f;$/;"	m	struct:__anon6::Reg
+e	z80.h	/^		uint8_t a, b, c, d, e, h, l, f;$/;"	m	struct:__anon6::Rsv
 eram	main.c	/^gb_mem8_t	*eram	= NULL;$/;"	v
 expand_mult	ut/uthash.h	/^   unsigned expand_mult;$/;"	m	struct:UT_hash_bucket
 f	z80.h	/^		uint8_t a, b, c, d, e, h, l, f;$/;"	m	struct:__anon6::Reg
+f	z80.h	/^		uint8_t a, b, c, d, e, h, l, f;$/;"	m	struct:__anon6::Rsv
 fileBuffer	main.c	/^uint8_t		*fileBuffer;$/;"	v
 gb_mem16_t	memory.h	/^} gb_mem16_t;$/;"	t	typeref:struct:__anon2
 gb_mem8_t	memory.h	/^} gb_mem8_t;$/;"	t	typeref:struct:__anon1
@@ -218,6 +228,8 @@ get16bits	ut/uthash.h	434;"	d
 get16bits	ut/uthash.h	438;"	d
 getState	main.c	/^z80_t *getState()$/;"	f
 h	z80.h	/^		uint8_t a, b, c, d, e, h, l, f;$/;"	m	struct:__anon6::Reg
+h	z80.h	/^		uint8_t a, b, c, d, e, h, l, f;$/;"	m	struct:__anon6::Rsv
+halt	z80.h	/^	int halt;$/;"	m	struct:__anon6
 hashv	ut/uthash.h	/^   unsigned hashv;                   \/* result of hash-fcn(key)        *\/$/;"	m	struct:UT_hash_handle
 hh	memory.h	/^	UT_hash_handle hh;	\/\/ Make hashable$/;"	m	struct:__anon1
 hh	memory.h	/^	UT_hash_handle hh;	\/\/ make hashable$/;"	m	struct:__anon2
@@ -229,6 +241,7 @@ i	ut/utarray.h	/^    unsigned i,n;\/* i: index of next available slot, n: num sl
 i	ut/utstring.h	/^    size_t i; \/* index of first unused byte *\/$/;"	m	struct:__anon5
 icd	ut/utarray.h	/^    UT_icd icd;  \/* initializer, copy and destructor functions *\/$/;"	m	struct:__anon4
 ideal_chain_maxlen	ut/uthash.h	/^   unsigned ideal_chain_maxlen;$/;"	m	struct:UT_hash_table
+ime	z80.h	/^		int ime;$/;"	m	struct:__anon6::Reg
 ineff_expands	ut/uthash.h	/^   unsigned ineff_expands, noexpand;$/;"	m	struct:UT_hash_table
 init	ut/utarray.h	/^    init_f *init;$/;"	m	struct:__anon3
 init_f	ut/utarray.h	/^typedef void (init_f)(void *elt);$/;"	t
@@ -236,6 +249,7 @@ init_state	z80.c	/^void init_state(z80_t* state)$/;"	f
 key	ut/uthash.h	/^   void *key;                        \/* ptr to enclosing struct's key  *\/$/;"	m	struct:UT_hash_handle
 keylen	ut/uthash.h	/^   unsigned keylen;                  \/* enclosing struct's key len     *\/$/;"	m	struct:UT_hash_handle
 l	z80.h	/^		uint8_t a, b, c, d, e, h, l, f;$/;"	m	struct:__anon6::Reg
+l	z80.h	/^		uint8_t a, b, c, d, e, h, l, f;$/;"	m	struct:__anon6::Rsv
 line	gpu.c	/^int line = 0;$/;"	v
 load_bios	main.c	/^void load_bios()$/;"	f
 load_file	main.c	/^long load_file(char *filename)$/;"	f
@@ -294,7 +308,6 @@ op_call_c	z80.c	/^void op_call_c(z80_t* state)$/;"	f
 op_call_nc	z80.c	/^void op_call_nc(z80_t* state)$/;"	f
 op_call_nz	z80.c	/^void op_call_nz(z80_t* state)$/;"	f
 op_call_z	z80.c	/^void op_call_z(z80_t* state)$/;"	f
-op_cb	z80.c	/^void op_cb(z80_t* state)$/;"	f
 op_ccf	z80.c	/^void op_ccf(z80_t* state)$/;"	f
 op_cp_a	z80.c	/^void op_cp_a(z80_t* state)$/;"	f
 op_cp_b	z80.c	/^void op_cp_b(z80_t* state)$/;"	f
@@ -431,7 +444,6 @@ op_ld_l_l	z80.c	/^void op_ld_l_l(z80_t* state)$/;"	f
 op_ld_l_nn	z80.c	/^void op_ld_l_nn(z80_t* state)$/;"	f
 op_ld_nn_sp	z80.c	/^void op_ld_nn_sp(z80_t* state)$/;"	f
 op_ld_nnnn_a	z80.c	/^void op_ld_nnnn_a(z80_t* state)$/;"	f
-op_ld_sp_hl	z80.c	/^void op_ld_sp_hl(z80_t* state)$/;"	f
 op_ld_sp_nn	z80.c	/^void op_ld_sp_nn(z80_t* state)$/;"	f
 op_ldd_a_hl	z80.c	/^void op_ldd_a_hl(z80_t* state)$/;"	f
 op_ldd_hl_a	z80.c	/^void op_ldd_hl_a(z80_t* state)$/;"	f
@@ -515,12 +527,15 @@ read_memory_8	memory.c	/^uint8_t read_memory_8(gb_mem8_t* hash, int addr)$/;"	f
 read_word	mmu.c	/^uint16_t read_word(int addr)$/;"	f
 reset	z80.c	/^void reset(z80_t* state)$/;"	f
 rom	main.c	/^gb_mem8_t	*rom	= NULL;$/;"	v
+rrs	z80.c	/^void rrs(z80_t* state)$/;"	f
+rsv	z80.c	/^void rsv(z80_t* state)$/;"	f
 run_loop	main.c	/^void run_loop()$/;"	f
 sentinel	dbg.h	24;"	d
 signature	ut/uthash.h	/^   uint32_t signature; \/* used only to find hash tables in external analysis *\/$/;"	m	struct:UT_hash_table
 sp	z80.h	/^		uint16_t pc, sp;$/;"	m	struct:__anon6::Reg
 state	main.c	/^z80_t 		*state;$/;"	v
 step	gpu.c	/^void step()$/;"	f
+stop	z80.h	/^	int stop;$/;"	m	struct:__anon6
 sz	ut/utarray.h	/^    size_t sz;$/;"	m	struct:__anon3
 t	z80.h	/^		int m, t;$/;"	m	struct:__anon6::Reg
 t	z80.h	/^		int t;$/;"	m	struct:__anon6::Clock

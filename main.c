@@ -107,6 +107,16 @@ void run_loop()
 		//	&opcodes[temp](state);
 			process_opcode(opcodes[temp]);
 			print_state(state);
+	
+			/*
+			// Shitty slowdown
+			int temp = 0;
+			while (temp < 1000000000) {
+				//printf(".");
+				temp += 1;
+			}
+			*/
+						
 		} else {
 			printf("%u\n", temp);
 		}
