@@ -45,6 +45,16 @@ void add_memory_eram(int addr, uint8_t value)
 	HASH_ADD_INT(eram, addr, s);
 }
 
+void add_memory_vram(int addr, uint8_t value)
+{
+	gb_mem8_t *s;
+
+	s = malloc(sizeof(gb_mem8_t));
+	s->addr = addr;
+	s->value = value;
+	HASH_ADD_INT(vram, addr, s);
+}
+
 void add_memory_zram(int addr, uint8_t value)
 {
 	gb_mem8_t *s;
@@ -62,10 +72,10 @@ uint8_t read_memory_8(gb_mem8_t* hash, int addr)
 
 	HASH_FIND_INT(hash, &addr, s);
 
-	check_mem(s);
+//	check_mem(s);
 	return s->value;
-error:
-	return 0;
+//error:
+//	return 0;
 }
 
 // Read a value from an 16-bit area of memory

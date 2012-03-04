@@ -4,6 +4,13 @@
 #include "ut/uthash.h"
 #include <inttypes.h>
 
+typedef struct {
+	int romBank;
+	int ramBank;
+	int ramOn;
+	int mode;
+} mbc_t;
+
 // 8-bit Memory location
 typedef struct {
 	int addr;
@@ -22,6 +29,7 @@ void add_memory_bios(int addr, uint8_t value);
 void add_memory_rom(int addr, uint8_t value);
 void add_memory_wram(int addr, uint8_t value);
 void add_memory_eram(int addr, uint8_t value);
+void add_memory_vram(int addr, uint8_t value);
 void add_memory_zram(int addr, uint8_t value);
 
 // Read a value from an 8-bit area of memory

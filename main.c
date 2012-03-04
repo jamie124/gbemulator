@@ -12,11 +12,17 @@ gb_mem8_t	*bios 	= NULL;
 gb_mem8_t	*rom	= NULL;
 gb_mem8_t	*wram	= NULL;
 gb_mem8_t	*eram	= NULL;
+gb_mem8_t	*vram	= NULL;
 gb_mem8_t	*zram	= NULL;
 
 int IN_BIOS = 1;
+int CART_TYPE = 0;
+
+uint16_t ROM_OFFS = 0x4000;
+uint16_t RAM_OFFS = 0;
 
 z80_t 		*state;
+mbc_t		*mbc;
 
 uint8_t		*fileBuffer;
 
@@ -28,6 +34,7 @@ int main(int argc, char *argv[])
 	printf("Game Boy Emulator\n");
 
 	state = malloc(sizeof(z80_t));
+	mbc = malloc(sizeof(mbc_t));
 
 	reset(state);		// Make sure it's clean to start with
 
@@ -48,6 +55,7 @@ int main(int argc, char *argv[])
 	//print_state(state);
 	
 	free(state);
+	free(mbc);
 
 	if (fileBuffer) {
 		printf("Freeing filebuffer\n");
@@ -92,18 +100,18 @@ void run_loop()
 {
 	int fclk = state->Clock.t + 70224;
 
-	printf("\nOpCodes:\n");
+//	printf("\nOpCodes:\n");
 	do {
 		uint8_t temp = read_byte(state->Reg.pc++);
 
-//		printf(" %u\n", temp);
+		printf("Executing OpCode %u\n", temp);
 	
 //		if (state->Reg.pc - 1 == 36){
 //			printf("33\n");
 //		}
 		
 		if (opcodes[temp] != NULL) {
-			printf("OPCODE %u\n", temp);
+		//	printf("OPCODE %u\n", temp);
 		//	&opcodes[temp](state);
 			process_opcode(opcodes[temp]);
 			print_state(state);
@@ -118,7 +126,7 @@ void run_loop()
 			*/
 						
 		} else {
-			printf("%u\n", temp);
+		//	printf("%u\n", temp);
 		}
 		
 

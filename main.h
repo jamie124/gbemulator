@@ -12,6 +12,7 @@ extern gb_mem8_t	*bios;
 extern gb_mem8_t	*rom;
 extern gb_mem8_t	*wram;
 extern gb_mem8_t	*eram;
+extern gb_mem8_t	*vram;
 extern gb_mem8_t	*zram;
 
 typedef void (*OpCodeType)(z80_t*);

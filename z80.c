@@ -46,7 +46,7 @@ void cb(z80_t* state)
 // 0x00
 void op_nop(z80_t* state)
 {
-	printf("\top_nop test\n");
+	//printf("\top_nop test\n");
 
 	state->Reg.m = 1; 
 //	state->Reg.t = 4;
@@ -405,11 +405,12 @@ void op_ldi_hl_a(z80_t* state)
 // 0x23
 void op_inc_hl(z80_t* state)
 {
-	uint8_t i = read_byte((state->Reg.h<<8) + state->Reg.l) + 1;
-	i &= 255;
-	write_byte((state->Reg.h<<8) + state->Reg.l,i);
-	state->Reg.f = (i ? 0 : 0x80);
-	state->Reg.m = 3;
+	state->Reg.l = (state->Reg.l + 1) & 255;
+	
+	if (!state->Reg.l)
+		state->Reg.h = (state->Reg.h + 1) & 255;
+	
+	state->Reg.m = 1;
 }
 
 // 0x24
@@ -2809,6 +2810,106 @@ void op_rst_38(z80_t* state)
 	state->Reg.m = 3;
 }
 
+// 0xCB00
+void op_rlc_b(z80_t* state)
+{
+	uint8_t ci = ((state->Reg.b & 0x80) ? 1 : 0);
+	uint8_t co = ((state->Reg.b & 0x80) ? 0x10 : 0);
+	
+	state->Reg.b = (state->Reg.b << 1) + ci;
+	state->Reg.b &= 255;
+	state->Reg.f = (state->Reg.b ? 0 : 0x80);
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+	
+	state->Reg.m = 2;
+}
+
+// 0xCB01
+void op_rlc_c(z80_t* state)
+{
+	uint8_t ci = ((state->Reg.c & 0x80) ? 1 : 0);
+	uint8_t co = ((state->Reg.c & 0x80) ? 0x10 : 0);
+	
+	state->Reg.c = (state->Reg.c << 1) + ci;
+	state->Reg.c &= 255;
+	state->Reg.f = (state->Reg.c ? 0 : 0x80);
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+	
+	state->Reg.m = 2;
+}
+
+// 0xCB02
+void op_rlc_d(z80_t* state)
+{
+	uint8_t ci = ((state->Reg.d & 0x80) ? 1 : 0);
+	uint8_t co = ((state->Reg.d & 0x80) ? 0x10 : 0);
+	
+	state->Reg.d = (state->Reg.d << 1) + ci;
+	state->Reg.d &= 255;
+	state->Reg.f = (state->Reg.d ? 0 : 0x80);
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+	
+	state->Reg.m = 2;
+}
+
+// 0xCB03
+void op_rlc_e(z80_t* state)
+{
+	uint8_t ci = ((state->Reg.e & 0x80) ? 1 : 0);
+	uint8_t co = ((state->Reg.e & 0x80) ? 0x10 : 0);
+	
+	state->Reg.e = (state->Reg.e << 1) + ci;
+	state->Reg.e &= 255;
+	state->Reg.f = (state->Reg.e ? 0 : 0x80);
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+	
+	state->Reg.m = 2;
+}
+
+// 0xCB04
+void op_rlc_h(z80_t* state)
+{
+	uint8_t ci = ((state->Reg.h & 0x80) ? 1 : 0);
+	uint8_t co = ((state->Reg.h & 0x80) ? 0x10 : 0);
+	
+	state->Reg.h = (state->Reg.h << 1) + ci;
+	state->Reg.h &= 255;
+	state->Reg.f = (state->Reg.h ? 0 : 0x80);
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+	
+	state->Reg.m = 2;
+}
+
+// 0xCB05
+void op_rlc_l(z80_t* state)
+{
+	uint8_t ci = ((state->Reg.l & 0x80) ? 1 : 0);
+	uint8_t co = ((state->Reg.l & 0x80) ? 0x10 : 0);
+	
+	state->Reg.l = (state->Reg.l << 1) + ci;
+	state->Reg.l &= 255;
+	state->Reg.f = (state->Reg.l ? 0 : 0x80);
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+	
+	state->Reg.m = 2;
+}
+
+// 0xCB06
+void op_rlc_hl(z80_t* state)
+{
+	uint8_t i = read_byte((state->Reg.h << 8) + state->Reg.l);
+	uint8_t ci = (i & 0x80 ? 1 : 0);
+	uint8_t co = (i & 0x80 ? 0x10 : 0);
+	
+	i = (i << 1) + ci;
+	i &= 255;
+	state->Reg.f = (i ? 0 : 0x80);
+	write_byte((state->Reg.h << 8) + state->Reg.l, i);
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+	
+	state->Reg.m = 4;
+}
+
 void reset(z80_t* state)
 {
 	state->Reg.a = 0; state->Reg.b = 0; state->Reg.c = 0; state->Reg.d = 0;
@@ -2822,12 +2923,12 @@ void reset(z80_t* state)
 
 void print_state(z80_t* state)
 {
-	printf("8-Bit Registers: a=%d, b=%d, c=%d, d=%d, e=%d, h=%d, l=%d, f=%d ",
+	printf("\t8-Bit Registers: a=%d, b=%d, c=%d, d=%d, e=%d, h=%d, l=%d, f=%d\n",
 		state->Reg.a, state->Reg.b, state->Reg.c, state->Reg.d, state->Reg.e,
 		state->Reg.h, state->Reg.l, state->Reg.f);
-	printf("16-Bit Registers: pc=%d, sp=%d ", 
+	printf("\t16-Bit Registers: pc=%d, sp=%d ", 
 		state->Reg.pc, state->Reg.sp);
-	printf("Clock: m=%d, t=%d\n",
+	printf("\tClock: m=%d, t=%d\n",
 		state->Reg.m, state->Reg.t);
 }
 
@@ -3100,7 +3201,7 @@ void *cbopcodes[256] = {
 	op_rlc_l,
 	op_rlc_hl,
 	op_rlc_a,
-	op_rrc_b,	// 0x08
+/*	op_rrc_b,	// 0x08
 	op_rrc_c,
 	op_rrc_d,
 	op_rrc_e,
@@ -3346,7 +3447,7 @@ void *cbopcodes[256] = {
 	op_set_7_h,
 	op_set_7_l,
 	op_set_7_hl,
-	op_set_7_a
+	op_set_7_a   */
 };
 
 
