@@ -104,7 +104,7 @@ void run_loop()
 	do {
 		uint8_t temp = read_byte(state->Reg.pc++);
 
-		printf("Executing OpCode %u\n", temp);
+		printf("Executing OpCode %x\n", temp);
 	
 //		if (state->Reg.pc - 1 == 36){
 //			printf("33\n");

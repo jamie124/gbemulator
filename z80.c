@@ -35,6 +35,8 @@ void cb(z80_t* state)
 	uint8_t i = read_byte(state->Reg.pc);
 	state->Reg.pc++;
 	state->Reg.pc &= 65535;
+	
+	printf("Executing callback opcode %x \n", i);
 
 	if (cbopcodes[i] != NULL) {
 		
@@ -601,7 +603,7 @@ void op_inc_hl_(z80_t* state)
 // 0x35
 void op_dec_hl_(z80_t* state)
 {
-	uint8_t i = read_byte((state->Reg.h << 8) + state->Reg.l) -1;
+	uint8_t i = read_byte((state->Reg.h << 8) + state->Reg.l) - 1;
 	i &= 255;
 	write_byte((state->Reg.h << 8) + state->Reg.l, i);
 	
@@ -2934,8 +2936,7 @@ void print_state(z80_t* state)
 
 // OpCode map
 void *opcodes[256] = {
-	// 0x00
-	op_nop,
+	op_nop,		// 0x00
 	op_ld_bc_nn,
 	op_ld_bc_a,
 	op_inc_bc,
@@ -2943,7 +2944,7 @@ void *opcodes[256] = {
 	op_dec_b,
 	op_ld_b_nn,
 	op_rlc_a,
-	op_ld_nn_sp,	// 0x08
+	op_ld_nn_sp,	// 0x08 Y
 	op_add_hl_bc,
 	op_ld_a_bc,
 	op_dec_bc,
@@ -2951,7 +2952,7 @@ void *opcodes[256] = {
 	op_dec_c,
 	op_ld_c_nn,
 	op_rrc_a,
-	op_stop,	// 0x10
+	op_stop,	// 0x10 Y
 	op_ld_de_nn,
 	op_ld_de_a,
 	op_inc_de,
@@ -2959,7 +2960,7 @@ void *opcodes[256] = {
 	op_dec_d,
 	op_ld_d_nn,
 	op_rl_a,
-	op_jr,		// 0x18
+	op_jr,		// 0x18 Y
 	op_add_hl_de,
 	op_ld_a_de,
 	op_dec_de,
@@ -2967,7 +2968,7 @@ void *opcodes[256] = {
 	op_dec_e,
 	op_ld_e_nn,
 	op_rr_a,
-	op_jr_nz,	// 0x20
+	op_jr_nz,	// 0x20 Y
 	op_ld_hl_nnnn,
 	op_ldi_hl_a,
 	op_inc_hl,
@@ -2975,7 +2976,7 @@ void *opcodes[256] = {
 	op_dec_h,
 	op_ld_h_nn,
 	op_daa,
-	op_jr_z,	// 0x28
+	op_jr_z,	// 0x28 Y
 	op_add_hl_hl,
 	op_ldi_a_hl,
 	op_dec_hl,
@@ -2983,7 +2984,7 @@ void *opcodes[256] = {
 	op_dec_l,
 	op_ld_l_nn,
 	op_cpl,
-	op_jr_nc,	// 0x30
+	op_jr_nc,	// 0x30 Y
 	op_ld_sp_nn,
 	op_ldd_hl_a,
 	op_inc_sp,
@@ -2991,7 +2992,7 @@ void *opcodes[256] = {
 	op_dec_hl_,
 	op_ld_hl_nn,
 	op_scf,
-	op_jr_c,	// 0x38
+	op_jr_c,	// 0x38 Y
 	op_add_hl_sp,
 	op_ldd_a_hl,
 	op_dec_sp,
@@ -3137,7 +3138,7 @@ void *opcodes[256] = {
 	op_ret_z,	// 0xC8
 	op_ret,
 	op_jp_z,
-	cb,
+	cb,		// Should be 0xCB?
 	op_call_z,
 	op_call,
 	op_adc_nn,
