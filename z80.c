@@ -39,7 +39,7 @@ void cb(z80_t* state)
 	printf("Executing callback opcode %x \n", i);
 
 	if (cbopcodes[i] != NULL) {
-		
+		process_opcode(cbopcodes[i]);
 	} else {
 		printf("CALLBACK %x\n", i);
 	}

@@ -17,6 +17,7 @@ extern gb_mem8_t	*zram;
 
 typedef void (*OpCodeType)(z80_t*);
 
+void process_opcode(OpCodeType opcode);
 void run_loop();
 
 z80_t *getState();
