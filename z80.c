@@ -3232,6 +3232,406 @@ void op_rr_hl(z80_t* state)
 // 0xCB1F
 // Implemented above
 
+// 0xCB20
+void op_sla_b(z80_t* state)
+{
+	uint8_t co = ((state->Reg.b & 0x80) ? 0x10 : 0);
+	state->Reg.b = (state->Reg.b << 1) & 255;
+	state->Reg.f = state->Reg.b ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.m = 2;
+}
+
+// 0xCB21
+void op_sla_c(z80_t* state)
+{
+	uint8_t co = ((state->Reg.c & 0x80) ? 0x10 : 0);
+	state->Reg.c = (state->Reg.c << 1) & 255;
+	state->Reg.f = state->Reg.c ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.m = 2;
+}
+
+// 0xCB22
+void op_sla_d(z80_t* state)
+{
+	uint8_t co = ((state->Reg.d & 0x80) ? 0x10 : 0);
+	state->Reg.d = (state->Reg.d << 1) & 255;
+	state->Reg.f = state->Reg.d ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.m = 2;
+}
+
+// 0xCB23
+void op_sla_e(z80_t* state)
+{
+	uint8_t co = ((state->Reg.e & 0x80) ? 0x10 : 0);
+	state->Reg.e = (state->Reg.e << 1) & 255;
+	state->Reg.f = state->Reg.e ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.m = 2;
+}
+
+// 0xCB24
+void op_sla_h(z80_t* state)
+{
+	uint8_t co = ((state->Reg.h & 0x80) ? 0x10 : 0);
+	state->Reg.h = (state->Reg.h << 1) & 255;
+	state->Reg.f = state->Reg.h ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.m = 2;
+}
+
+// 0xCB25
+void op_sla_l(z80_t* state)
+{
+	uint8_t co = ((state->Reg.l & 0x80) ? 0x10 : 0);
+	state->Reg.l = (state->Reg.l << 1) & 255;
+	state->Reg.f = state->Reg.l ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.m = 2;
+}
+
+// 0xCB26
+void op_sla_hl(z80_t* state)
+{
+
+}
+
+// 0xCB27
+void op_sla_a(z80_t* state)
+{
+	uint8_t co = ((state->Reg.a & 0x80) ? 0x10 : 0);
+	state->Reg.a = (state->Reg.a << 1) & 255;
+	state->Reg.f = state->Reg.a ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.m = 2;
+}
+
+// 0xCB28
+void op_sra_b(z80_t* state)
+{
+	uint8_t ci = state->Reg.b & 0x80;
+	uint8_t co = ((state->Reg.b & 1) ? 0x80 : 0);
+	state->Reg.b = ((state->Reg.b >> 1) + ci) & 255;
+	state->Reg.f = state->Reg.b ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+	
+	state->Reg.m = 2;
+}
+
+// 0xCB29
+void op_sra_c(z80_t* state)
+{
+	uint8_t ci = state->Reg.c & 0x80;
+	uint8_t co = ((state->Reg.c & 1) ? 0x80 : 0);
+	state->Reg.c = ((state->Reg.c >> 1) + ci) & 255;
+	state->Reg.f = state->Reg.c ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+	
+	state->Reg.m = 2;
+}
+
+// 0xCB2A
+void op_sra_d(z80_t* state)
+{
+	uint8_t ci = state->Reg.d & 0x80;
+	uint8_t co = ((state->Reg.d & 1) ? 0x80 : 0);
+	state->Reg.d = ((state->Reg.d >> 1) + ci) & 255;
+	state->Reg.f = state->Reg.d ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+	
+	state->Reg.m = 2;
+}
+
+// 0xCB2B
+void op_sra_e(z80_t* state)
+{
+	uint8_t ci = state->Reg.e & 0x80;
+	uint8_t co = ((state->Reg.e & 1) ? 0x80 : 0);
+	state->Reg.e = ((state->Reg.e >> 1) + ci) & 255;
+	state->Reg.f = state->Reg.e ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+	
+	state->Reg.m = 2;
+}
+
+// 0xCB2C
+void op_sra_h(z80_t* state)
+{
+	uint8_t ci = state->Reg.h & 0x80;
+	uint8_t co = ((state->Reg.h & 1) ? 0x80 : 0);
+	state->Reg.h = ((state->Reg.h >> 1) + ci) & 255;
+	state->Reg.f = state->Reg.h ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+	
+	state->Reg.m = 2;
+}
+
+// 0xCB2D
+void op_sra_l(z80_t* state)
+{
+	uint8_t ci = state->Reg.l & 0x80;
+	uint8_t co = ((state->Reg.l & 1) ? 0x80 : 0);
+	state->Reg.l = ((state->Reg.l >> 1) + ci) & 255;
+	state->Reg.f = state->Reg.l ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+	
+	state->Reg.m = 2;
+}
+
+// OxCB2E
+
+// 0xCB2F
+void op_sra_a(z80_t* state)
+{
+	uint8_t ci = state->Reg.a & 0x80;
+	uint8_t co = ((state->Reg.a & 1) ? 0x80 : 0);
+	state->Reg.a = ((state->Reg.a >> 1) + ci) & 255;
+	state->Reg.f = state->Reg.a ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+	
+	state->Reg.m = 2;
+}
+
+// 0xCB30
+void op_swap_b(z80_t* state) 
+{
+	uint8_t tr = state->Reg.b;
+	state->Reg.b = ((tr & 0xF) << 4) | ((tr & 0xF0) >> 4);
+	state->Reg.f = state->Reg.b ? 0 : 0x80;
+
+	state->Reg.m = 1;
+}
+
+// 0xCB31
+void op_swap_c(z80_t* state) 
+{
+	uint8_t tr = state->Reg.c;
+	state->Reg.c = ((tr & 0xF) << 4) | ((tr & 0xF0) >> 4);
+	state->Reg.f = state->Reg.c ? 0 : 0x80;
+
+	state->Reg.m = 1;
+}
+
+// 0xCB32
+void op_swap_d(z80_t* state) 
+{
+	uint8_t tr = state->Reg.d;
+	state->Reg.d = ((tr & 0xF) << 4) | ((tr & 0xF0) >> 4);
+	state->Reg.f = state->Reg.d ? 0 : 0x80;
+
+	state->Reg.m = 1;
+}
+
+// 0xCB33
+void op_swap_e(z80_t* state) 
+{
+	uint8_t tr = state->Reg.e;
+	state->Reg.e = ((tr & 0xF) << 4) | ((tr & 0xF0) >> 4);
+	state->Reg.f = state->Reg.e ? 0 : 0x80;
+
+	state->Reg.m = 1;
+}
+
+// 0xCB34
+void op_swap_h(z80_t* state) 
+{
+	uint8_t tr = state->Reg.h;
+	state->Reg.h = ((tr & 0xF) << 4) | ((tr & 0xF0) >> 4);
+	state->Reg.f = state->Reg.h ? 0 : 0x80;
+
+	state->Reg.m = 1;
+}
+
+// 0xCB35
+void op_swap_l(z80_t* state) 
+{
+	uint8_t tr = state->Reg.l;
+	state->Reg.l = ((tr & 0xF) << 4) | ((tr & 0xF0) >> 4);
+	state->Reg.f = state->Reg.l ? 0 : 0x80;
+
+	state->Reg.m = 1;
+}
+
+// 0xCBC6
+
+// 0xCB37
+void op_swap_a(z80_t* state) 
+{
+	uint8_t tr = state->Reg.a;
+	state->Reg.a = ((tr & 0xF) << 4) | ((tr & 0xF0) >> 4);
+	state->Reg.f = state->Reg.a ? 0 : 0x80;
+
+	state->Reg.m = 1;
+}
+
+// 0xCB38
+void op_srl_b(z80_t* state)
+{
+	uint8_t co = ((state->Reg.b & 1) ? 0x10 : 0);
+	state->Reg.b = (state->Reg.b >> 1) & 255;
+	state->Reg.f = state->Reg.b ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.m = 2;
+}
+
+// 0xCB39
+void op_srl_c(z80_t* state)
+{
+	uint8_t co = ((state->Reg.c & 1) ? 0x10 : 0);
+	state->Reg.c = (state->Reg.c >> 1) & 255;
+	state->Reg.f = state->Reg.c ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.m = 2;
+}
+
+// 0xCB3A
+void op_srl_d(z80_t* state)
+{
+	uint8_t co = ((state->Reg.d & 1) ? 0x10 : 0);
+	state->Reg.d = (state->Reg.d >> 1) & 255;
+	state->Reg.f = state->Reg.d ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.m = 2;
+}
+
+// 0xCB3B
+void op_srl_e(z80_t* state)
+{
+	uint8_t co = ((state->Reg.e & 1) ? 0x10 : 0);
+	state->Reg.e = (state->Reg.e >> 1) & 255;
+	state->Reg.f = state->Reg.e ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.m = 2;
+}
+
+// 0xCB3C
+void op_srl_h(z80_t* state)
+{
+	uint8_t co = ((state->Reg.h & 1) ? 0x10 : 0);
+	state->Reg.h = (state->Reg.h >> 1) & 255;
+	state->Reg.f = state->Reg.h ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.m = 2;
+}
+
+// 0xCB3D
+void op_srl_l(z80_t* state)
+{
+	uint8_t co = ((state->Reg.b & 1) ? 0x10 : 0);
+	state->Reg.b = (state->Reg.b >> 1) & 255;
+	state->Reg.f = state->Reg.b ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.m = 2;
+}
+
+// 0xCB3E
+
+// 0xCB3F
+void op_srl_a(z80_t* state)
+{
+	uint8_t co = ((state->Reg.a & 1) ? 0x10 : 0);
+	state->Reg.a = (state->Reg.a >> 1) & 255;
+	state->Reg.f = state->Reg.a ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.m = 2;
+}
+
+// 0xCB40
+void op_bit_0_b(z80_t* state)
+{
+	state->Reg.f &= 0x1F;
+	state->Reg.f |= 0x20;
+	state->Reg.f = (state->Reg.b & 0x01) ? 0 : 0x80;
+	
+	state->Reg.m = 2;
+}
+
+// 0xCB41
+void op_bit_0_c(z80_t* state)
+{
+	state->Reg.f &= 0x1F;
+	state->Reg.f |= 0x20;
+	state->Reg.f = (state->Reg.c & 0x01) ? 0 : 0x80;
+	
+	state->Reg.m = 2;
+}
+
+// 0xCB42
+void op_bit_0_d(z80_t* state)
+{
+	state->Reg.f &= 0x1F;
+	state->Reg.f |= 0x20;
+	state->Reg.f = (state->Reg.d & 0x01) ? 0 : 0x80;
+	
+	state->Reg.m = 2;
+}
+
+// 0xCB43
+void op_bit_0_e(z80_t* state)
+{
+	state->Reg.f &= 0x1F;
+	state->Reg.f |= 0x20;
+	state->Reg.f = (state->Reg.e & 0x01) ? 0 : 0x80;
+	
+	state->Reg.m = 2;
+}
+
+// 0xCB44
+void op_bit_0_h(z80_t* state)
+{
+	state->Reg.f &= 0x1F;
+	state->Reg.f |= 0x20;
+	state->Reg.f = (state->Reg.h & 0x01) ? 0 : 0x80;
+	
+	state->Reg.m = 2;
+}
+
+// 0xCB45
+void op_bit_0_l(z80_t* state)
+{
+	state->Reg.f &= 0x1F;
+	state->Reg.f |= 0x20;
+	state->Reg.f = (state->Reg.l & 0x01) ? 0 : 0x80;
+	
+	state->Reg.m = 2;
+}
+
+// 0xCB06
+void op_bit_0_m(z80_t* state)
+{
+	state->Reg.f &= 0x1F;
+	state->Reg.f |= 0x20;
+	state->Reg.f = (read_byte((state->Reg.h << 8) + state->Reg.l) & 0x01) ? 0 : 0x80;
+
+	state->Reg.m = 3;
+}
+
+// 0xCB47
+void op_bit_0_a(z80_t* state)
+{
+	state->Reg.f &= 0x1F;
+	state->Reg.f |= 0x20;
+	state->Reg.f = (state->Reg.a & 0x01) ? 0 : 0x80;
+	
+	state->Reg.m = 2;
+}
+
 void reset(z80_t* state)
 {
 	state->Reg.a = 0; state->Reg.b = 0; state->Reg.c = 0; state->Reg.d = 0;
@@ -3365,55 +3765,24 @@ void *cbopcodes[256] = {
 	op_rl_b,	op_rl_c,	op_rl_d,	op_rl_e,
 	op_rl_h,	op_rl_l,	op_rl_hl,	op_rl_a,
 	// 0x18
-	op_rr_b,	// 0x18
-	op_rr_c,
-	op_rr_d,
-	op_rr_e,
-	op_rr_h,
-	op_rr_l,
-	op_rr_hl,
-	op_rr_a,
-/*	op_sla_b,	// 0x20
-	op_sla_c,
-	op_sla_d,
-	op_sla_e,
-	op_sla_h,
-	op_sla_l,
-	op_sla_hl,
-	op_sla_a,
-	op_sra_b,	// 0x28
-	op_sra_c,
-	op_sra_d,
-	op_sra_e,
-	op_sra_h,
-	op_sra_l,
-	op_sra_hl,
-	op_sra_a,
-	op_swap_b,	// 0x30
-	op_swap_c,
-	op_swap_d,
-	op_swap_e,
-	op_swap_h,
-	op_swap_l,
-	op_swap_hl,
-	op_swap_a,
-	op_srl_b,	// 0x38
-	op_srl_c
-	op_srl_d,
-	op_srl_e,
-	op_srl_h,
-	op_srl_l,
-	op_srl_hl,
-	op_srl_a,
-	op_bit_0_b,	// 0x40
-	op_bit_0_c,
-	op_bit_0_d,
-	op_bit_0_e,
-	op_bit_0_h,
-	op_bit_0_l,
-	op_bit_0_hl,
-	op_bit_0_a,
-	op_bit_1_b,	// 0x48
+	op_rr_b,	op_rr_c,	op_rr_d,	op_rr_e,
+	op_rr_h,	op_rr_l,	op_rr_hl,	op_rr_a,
+	// 0x20
+	op_sla_b,	op_sla_c,	op_sla_d,	op_sla_e,
+	op_sla_h,	op_sla_l,	op_undefined,	op_sla_a,
+	// 0x28
+	op_sra_b,	op_sra_c,	op_sra_d,	op_sra_e,
+	op_sra_h,	op_sra_l,	op_undefined,	op_sra_a,
+	// 0x30	
+	op_swap_b,	op_swap_c,	op_swap_d,	op_swap_e,
+	op_swap_h,	op_swap_l,	op_undefined,	op_swap_a,
+	// 0x38
+	op_srl_b,	op_srl_c,	op_srl_d,	op_srl_e,
+	op_srl_h,	op_srl_l,	op_undefined,	op_srl_a,
+	// 0x40
+	op_bit_0_b,	op_bit_0_c,	op_bit_0_d,	op_bit_0_e,
+	op_bit_0_h,	op_bit_0_l,	op_bit_0_m,	op_bit_0_a,
+/*	op_bit_1_b,	// 0x48
 	op_bit_1_c,
 	op_bit_1_d,
 	op_bit_1_e,
