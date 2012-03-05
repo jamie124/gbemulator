@@ -41,7 +41,7 @@ void cb(z80_t* state)
 	if (cbopcodes[i] != NULL) {
 		
 	} else {
-		printf("CALLBACK %d\n", i);
+		printf("CALLBACK %x\n", i);
 	}
 }
 
@@ -2912,6 +2912,326 @@ void op_rlc_hl(z80_t* state)
 	state->Reg.m = 4;
 }
 
+// 0xCB07
+// Implemented above
+
+// 0xCB08
+void op_rrc_b(z80_t* state)
+{
+	uint8_t ci = ((state->Reg.b & 1) ? 0x80 : 0);
+	uint8_t co = ((state->Reg.b & 1) ? 0x10 : 0);
+	
+	state->Reg.b = (state->Reg.b >> 1) + ci;
+	state->Reg.b &= 255;
+	state->Reg.f = (state->Reg.b) ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.m = 2;
+}
+
+// 0xCB09
+void op_rrc_c(z80_t* state)
+{
+	uint8_t ci = ((state->Reg.c & 1) ? 0x80 : 0);
+	uint8_t co = ((state->Reg.c & 1) ? 0x10 : 0);
+	
+	state->Reg.c = (state->Reg.c >> 1) + ci;
+	state->Reg.c &= 255;
+	state->Reg.f = (state->Reg.c) ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.m = 2;
+}
+
+// 0xCB0A
+void op_rrc_d(z80_t* state)
+{
+	uint8_t ci = ((state->Reg.d & 1) ? 0x80 : 0);
+	uint8_t co = ((state->Reg.d & 1) ? 0x10 : 0);
+	
+	state->Reg.d = (state->Reg.d >> 1) + ci;
+	state->Reg.d &= 255;
+	state->Reg.f = (state->Reg.d) ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.m = 2;
+
+}
+
+// 0xCB0B
+void op_rrc_e(z80_t* state)
+{
+	uint8_t ci = ((state->Reg.e & 1) ? 0x80 : 0);
+	uint8_t co = ((state->Reg.e & 1) ? 0x10 : 0);
+	
+	state->Reg.e = (state->Reg.e >> 1) + ci;
+	state->Reg.e &= 255;
+	state->Reg.f = (state->Reg.e) ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.m = 2;
+
+}
+
+// 0xCB0C
+void op_rrc_h(z80_t* state)
+{
+	uint8_t ci = ((state->Reg.h & 1) ? 0x80 : 0);
+	uint8_t co = ((state->Reg.h & 1) ? 0x10 : 0);
+	
+	state->Reg.h = (state->Reg.h >> 1) + ci;
+	state->Reg.h &= 255;
+	state->Reg.f = (state->Reg.h) ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.m = 2;
+
+}
+
+// 0xCB0D
+void op_rrc_l(z80_t* state)
+{
+	uint8_t ci = ((state->Reg.l & 1) ? 0x80 : 0);
+	uint8_t co = ((state->Reg.l & 1) ? 0x10 : 0);
+	
+	state->Reg.l = (state->Reg.l >> 1) + ci;
+	state->Reg.l &= 255;
+	state->Reg.f = (state->Reg.l) ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.m = 2;
+
+}
+
+// 0xCB0E
+void op_rrc_hl(z80_t* state)
+{
+	uint8_t i = read_byte((state->Reg.h << 8) + state->Reg.l);
+	uint8_t ci = (i & 1 ? 0x80 : 0);
+	uint8_t co = (i & 1 ? 0x10 : 0);
+	
+	i = (i >> 1) + ci;
+	i &= 255;
+
+	write_byte((state->Reg.h << 8) + state->Reg.l, i);
+	state->Reg.f = i ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.m = 4;
+}
+
+// 0xCB0F
+// Implemented earlier
+
+// 0xCB10
+void op_rl_b(z80_t* state)
+{
+	uint8_t ci = ((state->Reg.f & 0x10) ? 1 : 0);
+	uint8_t co = ((state->Reg.b & 0x80) ? 0x10 : 0);
+
+	state->Reg.b = (state->Reg.b << 1) + ci;
+	state->Reg.b &= 255;
+	state->Reg.f = state->Reg.b ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.m = 2;
+}
+
+// 0xCB11
+void op_rl_c(z80_t* state)
+{
+	uint8_t ci = ((state->Reg.f & 0x10) ? 1 : 0);
+	uint8_t co = ((state->Reg.c & 0x80) ? 0x10 : 0);
+
+	state->Reg.c = (state->Reg.c << 1) + ci;
+	state->Reg.c &= 255;
+	state->Reg.f = state->Reg.c ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.m = 2;
+}
+
+// 0xCB12
+void op_rl_d(z80_t* state)
+{
+	uint8_t ci = ((state->Reg.f & 0x10) ? 1 : 0);
+	uint8_t co = ((state->Reg.d & 0x80) ? 0x10 : 0);
+
+	state->Reg.d = (state->Reg.d << 1) + ci;
+	state->Reg.d &= 255;
+	state->Reg.f = state->Reg.d ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.m = 2;
+}
+
+// 0xCB13
+void op_rl_e(z80_t* state)
+{
+	uint8_t ci = ((state->Reg.f & 0x10) ? 1 : 0);
+	uint8_t co = ((state->Reg.e & 0x80) ? 0x10 : 0);
+
+	state->Reg.e = (state->Reg.e << 1) + ci;
+	state->Reg.e &= 255;
+	state->Reg.f = state->Reg.e ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.m = 2;
+}
+
+// 0xCB14
+void op_rl_h(z80_t* state)
+{
+	uint8_t ci = ((state->Reg.f & 0x10) ? 1 : 0);
+	uint8_t co = ((state->Reg.h & 0x80) ? 0x10 : 0);
+
+	state->Reg.h = (state->Reg.h << 1) + ci;
+	state->Reg.h &= 255;
+	state->Reg.f = state->Reg.h ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.m = 2;
+}
+
+// 0xCB15
+void op_rl_l(z80_t* state)
+{
+	uint8_t ci = ((state->Reg.f & 0x10) ? 1 : 0);
+	uint8_t co = ((state->Reg.b & 0x80) ? 0x10 : 0);
+
+	state->Reg.b = (state->Reg.b << 1) + ci;
+	state->Reg.b &= 255;
+	state->Reg.f = state->Reg.b ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.m = 2;
+}
+
+// 0xCB16
+void op_rl_hl(z80_t* state)
+{
+	uint8_t i = read_byte((state->Reg.h << 8) + state->Reg.l);
+	uint8_t ci = ((state->Reg.f & 0x10) ? 1 : 0);
+	uint8_t co = ((i & 0x80) ? 0x10 : 0);
+	
+	i = (i << 1) + ci;
+	i &= 255;
+	state->Reg.f = i ? 0 : 0x80;
+
+	write_byte((state->Reg.h << 8) + state->Reg.l, i);
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.m = 4;
+
+}
+
+// 0xCB17
+// Implemented above
+
+// 0xCB18
+void op_rr_b(z80_t* state)
+{
+	uint8_t ci = ((state->Reg.f & 0x10) ? 0x80 : 0);
+	uint8_t co = ((state->Reg.b & 1) ? 0x10 : 0);
+
+	state->Reg.b = (state->Reg.b >> 1) + ci;
+	state->Reg.b &= 255;
+	state->Reg.f = state->Reg.b ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+	
+	state->Reg.m = 2;
+}
+
+// 0xCB19
+void op_rr_c(z80_t* state)
+{
+	uint8_t ci = ((state->Reg.f & 0x10) ? 0x80 : 0);
+	uint8_t co = ((state->Reg.c & 1) ? 0x10 : 0);
+
+	state->Reg.c = (state->Reg.c >> 1) + ci;
+	state->Reg.c &= 255;
+	state->Reg.f = state->Reg.c ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+	
+	state->Reg.m = 2;
+}
+
+// 0xCB1A
+void op_rr_d(z80_t* state)
+{
+	uint8_t ci = ((state->Reg.f & 0x10) ? 0x80 : 0);
+	uint8_t co = ((state->Reg.d & 1) ? 0x10 : 0);
+
+	state->Reg.d = (state->Reg.d >> 1) + ci;
+	state->Reg.d &= 255;
+	state->Reg.f = state->Reg.d ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+	
+	state->Reg.m = 2;
+}
+
+// 0xCB1B
+void op_rr_e(z80_t* state)
+{
+	uint8_t ci = ((state->Reg.f & 0x10) ? 0x80 : 0);
+	uint8_t co = ((state->Reg.e & 1) ? 0x10 : 0);
+
+	state->Reg.e = (state->Reg.e >> 1) + ci;
+	state->Reg.e &= 255;
+	state->Reg.f = state->Reg.e ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+	
+	state->Reg.m = 2;
+}
+
+// 0xCB1C
+void op_rr_h(z80_t* state)
+{
+	uint8_t ci = ((state->Reg.f & 0x10) ? 0x80 : 0);
+	uint8_t co = ((state->Reg.h & 1) ? 0x10 : 0);
+
+	state->Reg.h = (state->Reg.h >> 1) + ci;
+	state->Reg.h &= 255;
+	state->Reg.f = state->Reg.h ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+	
+	state->Reg.m = 2;
+}
+
+// 0xCB1D
+void op_rr_l(z80_t* state)
+{
+	uint8_t ci = ((state->Reg.f & 0x10) ? 0x80 : 0);
+	uint8_t co = ((state->Reg.l & 1) ? 0x10 : 0);
+
+	state->Reg.l = (state->Reg.l >> 1) + ci;
+	state->Reg.l &= 255;
+	state->Reg.f = state->Reg.l ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+	
+	state->Reg.m = 2;
+}
+
+// 0xCB1E
+void op_rr_hl(z80_t* state)
+{
+	uint8_t i = read_byte((state->Reg.h << 8) + state->Reg.l);
+	uint8_t ci = ((state->Reg.f & 0x10) ? 0x80 : 0);
+	uint8_t co = ((i & 1) ? 0x10 : 0);
+	
+	i = (i >> 1) + ci;
+	i &= 255;
+
+	write_byte((state->Reg.h << 8) + state->Reg.l, i);
+	state->Reg.f = i ? 0 : 0x80;
+	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.m = 4;
+}
+
+// 0xCB1F
+// Implemented above
+
 void reset(z80_t* state)
 {
 	state->Reg.a = 0; state->Reg.b = 0; state->Reg.c = 0; state->Reg.d = 0;
@@ -3035,30 +3355,16 @@ void *opcodes[256] = {
 };
 
 void *cbopcodes[256] = {
-	op_rlc_b,	// 0x00
-	op_rlc_c,
-	op_rlc_d,
-	op_rlc_e,
-	op_rlc_h,
-	op_rlc_l,
-	op_rlc_hl,
-	op_rlc_a,
-	op_rrc_b,	// 0x08
-	op_rrc_c,
-	op_rrc_d,
-	op_rrc_e,
-	op_rrc_h,
-	op_rrc_l,
-	op_rrc_hl,
-	op_rrc_a,
-/*	op_rl_b,	// 0x10
-	op_rl_c,
-	op_rl_d,
-	op_rl_e,
-	op_rl_h,
-	op_rl_l,
-	op_rl_hl,
-	op_rl_a,
+	// 0x00
+	op_rlc_b,	op_rlc_c,	op_rlc_d,	op_rlc_e,
+	op_rlc_h,	op_rlc_l,	op_rlc_hl,	op_rlc_a,
+	// 0x08
+	op_rrc_b,	op_rrc_c,	op_rrc_d,	op_rrc_e,
+	op_rrc_h,	op_rrc_l,	op_rrc_hl,	op_rrc_a,
+	// 0x10
+	op_rl_b,	op_rl_c,	op_rl_d,	op_rl_e,
+	op_rl_h,	op_rl_l,	op_rl_hl,	op_rl_a,
+	// 0x18
 	op_rr_b,	// 0x18
 	op_rr_c,
 	op_rr_d,
@@ -3067,7 +3373,7 @@ void *cbopcodes[256] = {
 	op_rr_l,
 	op_rr_hl,
 	op_rr_a,
-	op_sla_b,	// 0x20
+/*	op_sla_b,	// 0x20
 	op_sla_c,
 	op_sla_d,
 	op_sla_e,
