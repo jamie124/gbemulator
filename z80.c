@@ -2936,261 +2936,102 @@ void print_state(z80_t* state)
 
 // OpCode map
 void *opcodes[256] = {
-	op_nop,		// 0x00
-	op_ld_bc_nn,
-	op_ld_bc_a,
-	op_inc_bc,
-	op_inc_b,
-	op_dec_b,
-	op_ld_b_nn,
-	op_rlc_a,
-	op_ld_nn_sp,	// 0x08 Y
-	op_add_hl_bc,
-	op_ld_a_bc,
-	op_dec_bc,
-	op_inc_c,
-	op_dec_c,
-	op_ld_c_nn,
-	op_rrc_a,
-	op_stop,	// 0x10 Y
-	op_ld_de_nn,
-	op_ld_de_a,
-	op_inc_de,
-	op_inc_d,
-	op_dec_d,
-	op_ld_d_nn,
-	op_rl_a,
-	op_jr,		// 0x18 Y
-	op_add_hl_de,
-	op_ld_a_de,
-	op_dec_de,
-	op_inc_e,
-	op_dec_e,
-	op_ld_e_nn,
-	op_rr_a,
-	op_jr_nz,	// 0x20 Y
-	op_ld_hl_nnnn,
-	op_ldi_hl_a,
-	op_inc_hl,
-	op_inc_h,
-	op_dec_h,
-	op_ld_h_nn,
-	op_daa,
-	op_jr_z,	// 0x28 Y
-	op_add_hl_hl,
-	op_ldi_a_hl,
-	op_dec_hl,
-	op_inc_l,
-	op_dec_l,
-	op_ld_l_nn,
-	op_cpl,
-	op_jr_nc,	// 0x30 Y
-	op_ld_sp_nn,
-	op_ldd_hl_a,
-	op_inc_sp,
-	op_inc_hl_,
-	op_dec_hl_,
-	op_ld_hl_nn,
-	op_scf,
-	op_jr_c,	// 0x38 Y
-	op_add_hl_sp,
-	op_ldd_a_hl,
-	op_dec_sp,
-	op_inc_a,
-	op_dec_a,
-	op_ld_a_nn,
-	op_ccf,
-	op_ld_b_b,	// 0x40
-	op_ld_b_c,
-	op_ld_b_d,
-	op_ld_b_e,
-	op_ld_b_h,
-	op_ld_b_l,
-	op_ld_b_hl,
-	op_ld_b_a,
-	op_ld_c_b,	// 0x48
-	op_ld_c_c,
-	op_ld_c_d,
-	op_ld_c_e,
-	op_ld_c_h,
-	op_ld_c_l,
-	op_ld_c_hl,
-	op_ld_c_a,
-	op_ld_d_b,	// 0x50
-	op_ld_d_c,
-	op_ld_d_d,
-	op_ld_d_e,
-	op_ld_d_h,
-	op_ld_d_l,
-	op_ld_d_hl,
-	op_ld_d_a,
-	op_ld_e_b,	// 0x58
-	op_ld_e_c,
-	op_ld_e_d,
-	op_ld_e_h,
-	op_ld_e_l,
-	op_ld_e_hl,
-	op_ld_e_a,
-	op_ld_h_b,	// 0x60
-	op_ld_h_c,
-	op_ld_h_d,
-	op_ld_h_e,
-	op_ld_h_h,
-	op_ld_h_l,
-	op_ld_h_hl,
-	op_ld_h_a,
-	op_ld_l_b,	// 0x68
-	op_ld_l_c,
-	op_ld_l_d,
-	op_ld_l_e,
-	op_ld_l_h,
-	op_ld_l_l,
-	op_ld_l_hl,
-	op_ld_l_a,
-	op_ld_hl_b,	// 0x70
-	op_ld_hl_c,
-	op_ld_hl_d,
-	op_ld_hl_e,
-	op_ld_hl_h,
-	op_ld_hl_l,
-	op_halt,
-	op_ld_hl_a,
-	op_ld_a_b,	// 0x78
-	op_ld_a_c,
-	op_ld_a_d,
-	op_ld_a_e,
-	op_ld_a_h,
-	op_ld_a_l,
-	op_ld_a_hl,
-	op_ld_a_a,
-	op_add_a_b,	// 0x80
-	op_add_a_c,
-	op_add_a_d,
-	op_add_a_e,
-	op_add_a_h,
-	op_add_a_l,
-	op_add_a_hl,
-	op_add_a_a,
-	op_adc_b,	// 0x88
-	op_adc_c,
-	op_adc_d,
-	op_adc_e,
-	op_adc_h,
-	op_adc_l,
-	op_adc_hl,
-	op_adc_a,
-	op_sub_b,	// 0x90
-	op_sub_c,
-	op_sub_d,
-	op_sub_e,
-	op_sub_h,
-	op_sub_l,
-	op_sub_hl,
-	op_sub_a,
-	op_sbc_b,	// 0x98
-	op_sbc_c,
-	op_sbc_d,
-	op_sbc_e,
-	op_sbc_h,
-	op_sbc_l,
-	op_sbc_hl,
-	op_sbc_a,
-	op_and_b,	// 0xA0
-	op_and_c,
-	op_and_d,
-	op_and_e,
-	op_and_h,
-	op_and_l,
-	op_and_hl,
-	op_and_a,
-	op_xor_b,	// 0xA8
-	op_xor_c,
-	op_xor_d,
-	op_xor_e,
-	op_xor_h,
-	op_xor_l,
-	op_xor_hl,
-	op_xor_a,
-	op_or_b,	// 0xB0
-	op_or_c,
-	op_or_d,
-	op_or_e,
-	op_or_h,
-	op_or_l,
-	op_or_hl,
-	op_or_a,
-	op_cp_b,	// 0xB8
-	op_cp_c,
-	op_cp_d,
-	op_cp_e,
-	op_cp_h,
-	op_cp_l,
-	op_cp_hl,
-	op_cp_a,
-	op_ret_nz,	// 0xC0
-	op_pop_bc,
-	op_jp_nz,
-	op_jp,
-	op_call_nz,
-	op_push_bc,
-	op_add_a_nn,
-	op_rst_0,
-	op_ret_z,	// 0xC8
-	op_ret,
-	op_jp_z,
-	cb,		// Should be 0xCB?
-	op_call_z,
-	op_call,
-	op_adc_nn,
-	op_rst_8,
-	op_ret_nc,	// 0xD0
-	op_pop_de,
-	op_jp_nc,
-	op_undefined,
-	op_call_nz,
-	op_push_de,
-	op_sub_nn,
-	op_rst_10,
-	op_ret_c,	// 0xD8
-	op_reti,
-	op_jp_c,
-	op_undefined,
-	op_call_c,
-	op_undefined,
-	op_sbc_a_nn,
-	op_rst_18,
-	op_ld_ffnn_a,	// 0xE0
-	op_pop_hl,
-	op_ld_ffc_a,
-	op_undefined,
-	op_undefined,
-	op_push_hl,
-	op_and_nn,
-	op_rst_20,
-	op_add_sp_nn,	// 0xE8
-	op_jp_hl,
-	op_ld_nnnn_a,
-	op_undefined,
-	op_undefined,
-	op_undefined,
-	op_xor_nn,
-	op_rst_28,
-	op_ld_a_ffnn,	// 0xF0
-	op_pop_af,
-	op_ld_a_ffc,
-	op_di,
-	op_undefined,
-	op_push_af,
-	op_or_nn,
-	op_rst_30,
-	op_hl_ld_sp_nn,	// 0xF8
-	op_undefined,	//op_ld_sp_hl,
-	op_ld_a_nnnn,
-	op_ei,
-	op_undefined,
-	op_undefined,
-	op_cp_nn,
-	op_rst_38
+	// 0x00
+	op_nop,		op_ld_bc_nn,	op_ld_bc_a,	op_inc_bc,
+	op_inc_b,	op_dec_b,	op_ld_b_nn,	op_rlc_a,
+	// 0x08
+	op_ld_nn_sp,	op_add_hl_bc,	op_ld_a_bc,	op_dec_bc,
+	op_inc_c,	op_dec_c,	op_ld_c_nn,	op_rrc_a,
+	// 0x10
+	op_stop,	op_ld_de_nn,	op_ld_de_a,	op_inc_de,
+	op_inc_d,	op_dec_d,	op_ld_d_nn,	op_rl_a,
+	// 0x18
+	op_jr,		op_add_hl_de,	op_ld_a_de,	op_dec_de,
+	op_inc_e,	op_dec_e,	op_ld_e_nn,	op_rr_a,
+	// 0x20
+	op_jr_nz,	op_ld_hl_nnnn,	op_ldi_hl_a,	op_inc_hl,
+	op_inc_h,	op_dec_h,	op_ld_h_nn,	op_daa,
+	// 0x28
+	op_jr_z,	op_add_hl_hl,	op_ldi_a_hl,	op_dec_hl,
+	op_inc_l,	op_dec_l,	op_ld_l_nn,	op_cpl,
+	// 0x30
+	op_jr_nc,	op_ld_sp_nn,	op_ldd_hl_a,	op_inc_sp,
+	op_inc_hl_,	op_dec_hl_,	op_ld_hl_nn,	op_scf,
+	// 0x38
+	op_jr_c,	op_add_hl_sp,	op_ldd_a_hl,	op_dec_sp,
+	op_inc_a,	op_dec_a,	op_ld_a_nn,	op_ccf,
+	// 0x40
+	op_ld_b_b,	op_ld_b_c,	op_ld_b_d,	op_ld_b_e,
+	op_ld_b_h,	op_ld_b_l,	op_ld_b_hl,	op_ld_b_a,
+	// 0x48
+	op_ld_c_b,	op_ld_c_c,	op_ld_c_d,	op_ld_c_e,
+	op_ld_c_h,	op_ld_c_l,	op_ld_c_hl,	op_ld_c_a,
+	// 0x50
+	op_ld_d_b,	op_ld_d_c,	op_ld_d_d,	op_ld_d_e,
+	op_ld_d_h,	op_ld_d_l,	op_ld_d_hl,	op_ld_d_a,
+	// 0x58
+	op_ld_e_b,	op_ld_e_c,	op_ld_e_d,	op_ld_d_e,	
+	op_ld_e_h,	op_ld_e_l,	op_ld_e_hl,	op_ld_e_a,
+	// 0x60
+	op_ld_h_b,	op_ld_h_c,	op_ld_h_d,	op_ld_h_e,
+	op_ld_h_h,	op_ld_h_l,	op_ld_h_hl,	op_ld_h_a,
+	// 0x68
+	op_ld_l_b,	op_ld_l_c,	op_ld_l_d,	op_ld_l_e,
+	op_ld_l_h,	op_ld_l_l,	op_ld_l_hl,	op_ld_l_a,
+	// 0x70
+	op_ld_hl_b,	op_ld_hl_c,	op_ld_hl_d,	op_ld_hl_e,
+	op_ld_hl_h,	op_ld_hl_l,	op_halt,	op_ld_hl_a,
+	// 0x78
+	op_ld_a_b,	op_ld_a_c,	op_ld_a_d,	op_ld_a_e,
+	op_ld_a_h,	op_ld_a_l,	op_ld_a_hl,	op_ld_a_a,
+	// 0x80
+	op_add_a_b,	op_add_a_c,	op_add_a_d,	op_add_a_e,
+	op_add_a_h,	op_add_a_l,	op_add_a_hl,	op_add_a_a,
+	// 0x88
+	op_adc_b,	op_adc_c,	op_adc_d,	op_adc_e,
+	op_adc_h,	op_adc_l,	op_adc_hl,	op_adc_a,
+	// 0x90
+	op_sub_b,	op_sub_c,	op_sub_d,	op_sub_e,
+	op_sub_h,	op_sub_l,	op_sub_hl,	op_sub_a,
+	// 0x98
+	op_sbc_b,	op_sbc_c,	op_sbc_d,	op_sbc_e,
+	op_sbc_h,	op_sbc_l,	op_sbc_hl,	op_sbc_a,
+	// 0xA0
+	op_and_b,	op_and_c,	op_and_d,	op_and_e,
+	op_and_h,	op_and_l,	op_and_hl,	op_and_a,
+	// 0xA8
+	op_xor_b,	op_xor_c,	op_xor_d,	op_xor_e,
+	op_xor_h,	op_xor_l,	op_xor_hl,	op_xor_a,
+	// 0xB0
+	op_or_b,	op_or_c,	op_or_d,	op_or_e,
+	op_or_h,	op_or_l,	op_or_hl,	op_or_a,
+	// 0xB8
+	op_cp_b,	op_cp_c,	op_cp_d,	op_cp_e,
+	op_cp_h,	op_cp_l,	op_cp_hl,	op_cp_a,
+	// 0xC0
+	op_ret_nz,	op_pop_bc,	op_jp_nz,	op_jp,
+	op_call_nz,	op_push_bc,	op_add_a_nn,	op_rst_0,
+	// 0xC8
+	op_ret_z,	op_ret,		op_jp_z,	cb,
+	op_call_z,	op_call,	op_adc_nn,	op_rst_8,
+	// 0xD0
+	op_ret_nc,	op_pop_de,	op_jp_nc,	op_undefined,
+	op_call_nz,	op_push_de,	op_sub_nn,	op_rst_10,
+	// 0xD8
+	op_ret_c,	op_reti,	op_jp_c,	op_undefined,
+	op_call_c,	op_undefined,	op_sbc_a_nn,	op_rst_18,
+	// 0xE0
+	op_ld_ffnn_a,	op_pop_hl,	op_ld_ffc_a,	op_undefined,
+	op_undefined,	op_push_hl,	op_and_nn,	op_rst_20,
+	// 0xE8
+	op_add_sp_nn,	op_jp_hl,	op_ld_nnnn_a,	op_undefined,
+	op_undefined,	op_undefined,	op_xor_nn,	op_rst_28,
+	// 0xF0
+	op_ld_a_ffnn,	op_pop_af,	op_ld_a_ffc,	op_di,
+	op_undefined,	op_push_af,	op_or_nn,	op_rst_30,
+	// 0xF8
+	op_hl_ld_sp_nn,	op_undefined,	op_ld_a_nnnn,	op_ei,
+	op_undefined,	op_undefined,	op_cp_nn,	op_rst_38
 };
 
 void *cbopcodes[256] = {
@@ -3202,7 +3043,7 @@ void *cbopcodes[256] = {
 	op_rlc_l,
 	op_rlc_hl,
 	op_rlc_a,
-/*	op_rrc_b,	// 0x08
+	op_rrc_b,	// 0x08
 	op_rrc_c,
 	op_rrc_d,
 	op_rrc_e,
@@ -3210,7 +3051,7 @@ void *cbopcodes[256] = {
 	op_rrc_l,
 	op_rrc_hl,
 	op_rrc_a,
-	op_rl_b,	// 0x10
+/*	op_rl_b,	// 0x10
 	op_rl_c,
 	op_rl_d,
 	op_rl_e,
