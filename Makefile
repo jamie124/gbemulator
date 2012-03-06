@@ -1,6 +1,6 @@
 CC=cc
 CFLAGS=-g -Wall -Wfatal-errors -std=c99
-OBJECTS=z80.o memory.o mmu.o gpu.o main.o
+OBJECTS=z80.o memory.o mmu.o gpu.o gb.o main.o
 
 all: $(OBJECTS)
 	$(CC) -o gbemulator $(OBJECTS) $(CFLAGS) $(LDFLAGS) 

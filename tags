@@ -175,6 +175,7 @@ _UNUSED_	ut/utarray.h	35;"	d
 _UNUSED_	ut/utstring.h	33;"	d
 _UNUSED_	ut/utstring.h	35;"	d
 __dbg_h_	dbg.h	2;"	d
+_gb_h	gb.h	2;"	d
 _main_h	main.h	3;"	d
 _memory_h	memory.h	2;"	d
 _mmu_h	mmu.h	3;"	d

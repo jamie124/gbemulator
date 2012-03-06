@@ -2,6 +2,7 @@
 #include "main.h"
 #include "dbg.h"
 #include "mmu.h"
+#include "gb.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -49,6 +50,8 @@ int main(int argc, char *argv[])
 	}
 
 	printf("Number of records in ROM %u\n", HASH_COUNT(rom));
+
+	setup_boot(state);	
 
 	// Start executing instructions
 	run_loop();
