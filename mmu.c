@@ -18,11 +18,11 @@ uint8_t read_byte(int addr)
 					printf("Leaving BIOS.\n");
 					//return 0;
 				}
+			} else {
+				printf("Reading from rom\n");
+				return read_memory_8(rom, addr);
 			}
-
-			//printf("Reading from rom\n");
-			return read_memory_8(rom, addr);
-
+				
 		// ROM0
 		case 0x1000:
 		case 0x2000:

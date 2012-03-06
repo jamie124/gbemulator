@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 
 	load_bios();
 
-	unsigned long fileLength = load_file("test.gb");
+	unsigned long fileLength = load_file("bomberman.gb");
 
 	if (fileLength > 0) {
 		process_file(fileLength);
