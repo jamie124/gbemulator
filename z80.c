@@ -60,7 +60,9 @@ void op_ld_bc_nn(z80_t* state)
 {
 	state->Reg.c = read_byte(state->Reg.pc);
 	state->Reg.b = read_byte(state->Reg.pc+1);
-	state->Reg.pc += 2;
+	
+	state->Reg.pc += 2;	
+
 	state->Reg.m = 3;
 }
 
@@ -68,6 +70,7 @@ void op_ld_bc_nn(z80_t* state)
 void op_ld_bc_a(z80_t* state)
 {
 	write_byte((state->Reg.b << 8) + state->Reg.c, state->Reg.a);
+
 	state->Reg.m = 2;
 }
 
@@ -2824,6 +2827,8 @@ void op_rlc_b(z80_t* state)
 	state->Reg.f = (state->Reg.b ? 0 : 0x80);
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 	
+	state->Reg.pc++;
+	
 	state->Reg.m = 2;
 }
 
@@ -2837,6 +2842,8 @@ void op_rlc_c(z80_t* state)
 	state->Reg.c &= 255;
 	state->Reg.f = (state->Reg.c ? 0 : 0x80);
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
+
+	state->Reg.pc++;
 	
 	state->Reg.m = 2;
 }
@@ -2852,6 +2859,8 @@ void op_rlc_d(z80_t* state)
 	state->Reg.f = (state->Reg.d ? 0 : 0x80);
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 	
+	state->Reg.pc++;
+	
 	state->Reg.m = 2;
 }
 
@@ -2865,6 +2874,8 @@ void op_rlc_e(z80_t* state)
 	state->Reg.e &= 255;
 	state->Reg.f = (state->Reg.e ? 0 : 0x80);
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
+	
+	state->Reg.pc++;
 	
 	state->Reg.m = 2;
 }
@@ -2880,6 +2891,8 @@ void op_rlc_h(z80_t* state)
 	state->Reg.f = (state->Reg.h ? 0 : 0x80);
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 	
+	state->Reg.pc++;
+	
 	state->Reg.m = 2;
 }
 
@@ -2893,6 +2906,8 @@ void op_rlc_l(z80_t* state)
 	state->Reg.l &= 255;
 	state->Reg.f = (state->Reg.l ? 0 : 0x80);
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
+	
+	state->Reg.pc++;
 	
 	state->Reg.m = 2;
 }
@@ -2909,6 +2924,8 @@ void op_rlc_hl(z80_t* state)
 	state->Reg.f = (i ? 0 : 0x80);
 	write_byte((state->Reg.h << 8) + state->Reg.l, i);
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
+	
+	state->Reg.pc++;
 	
 	state->Reg.m = 4;
 }
@@ -2927,6 +2944,8 @@ void op_rrc_b(z80_t* state)
 	state->Reg.f = (state->Reg.b) ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 
+	state->Reg.pc++;
+	
 	state->Reg.m = 2;
 }
 
@@ -2941,6 +2960,8 @@ void op_rrc_c(z80_t* state)
 	state->Reg.f = (state->Reg.c) ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 
+	state->Reg.pc++;
+	
 	state->Reg.m = 2;
 }
 
@@ -2955,6 +2976,8 @@ void op_rrc_d(z80_t* state)
 	state->Reg.f = (state->Reg.d) ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 
+	state->Reg.pc++;
+	
 	state->Reg.m = 2;
 
 }
@@ -2970,6 +2993,8 @@ void op_rrc_e(z80_t* state)
 	state->Reg.f = (state->Reg.e) ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 
+	state->Reg.pc++;
+	
 	state->Reg.m = 2;
 
 }
@@ -2985,6 +3010,8 @@ void op_rrc_h(z80_t* state)
 	state->Reg.f = (state->Reg.h) ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 
+	state->Reg.pc++;
+	
 	state->Reg.m = 2;
 
 }
@@ -3000,6 +3027,8 @@ void op_rrc_l(z80_t* state)
 	state->Reg.f = (state->Reg.l) ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 
+	state->Reg.pc++;
+	
 	state->Reg.m = 2;
 
 }
@@ -3018,6 +3047,8 @@ void op_rrc_hl(z80_t* state)
 	state->Reg.f = i ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 
+	state->Reg.pc++;
+	
 	state->Reg.m = 4;
 }
 
@@ -3035,6 +3066,8 @@ void op_rl_b(z80_t* state)
 	state->Reg.f = state->Reg.b ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 
+	state->Reg.pc++;
+	
 	state->Reg.m = 2;
 }
 
@@ -3049,6 +3082,8 @@ void op_rl_c(z80_t* state)
 	state->Reg.f = state->Reg.c ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 
+	state->Reg.pc++;
+	
 	state->Reg.m = 2;
 }
 
@@ -3063,6 +3098,8 @@ void op_rl_d(z80_t* state)
 	state->Reg.f = state->Reg.d ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 
+	state->Reg.pc++;
+	
 	state->Reg.m = 2;
 }
 
@@ -3077,6 +3114,8 @@ void op_rl_e(z80_t* state)
 	state->Reg.f = state->Reg.e ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 
+	state->Reg.pc++;
+	
 	state->Reg.m = 2;
 }
 
@@ -3091,6 +3130,8 @@ void op_rl_h(z80_t* state)
 	state->Reg.f = state->Reg.h ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 
+	state->Reg.pc++;
+	
 	state->Reg.m = 2;
 }
 
@@ -3105,6 +3146,8 @@ void op_rl_l(z80_t* state)
 	state->Reg.f = state->Reg.b ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 
+	state->Reg.pc++;
+	
 	state->Reg.m = 2;
 }
 
@@ -3140,7 +3183,7 @@ void op_rr_b(z80_t* state)
 	state->Reg.f = state->Reg.b ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB19
@@ -3154,7 +3197,7 @@ void op_rr_c(z80_t* state)
 	state->Reg.f = state->Reg.c ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB1A
@@ -3168,7 +3211,7 @@ void op_rr_d(z80_t* state)
 	state->Reg.f = state->Reg.d ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB1B
@@ -3182,7 +3225,7 @@ void op_rr_e(z80_t* state)
 	state->Reg.f = state->Reg.e ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB1C
@@ -3196,7 +3239,7 @@ void op_rr_h(z80_t* state)
 	state->Reg.f = state->Reg.h ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB1D
@@ -3210,7 +3253,7 @@ void op_rr_l(z80_t* state)
 	state->Reg.f = state->Reg.l ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB1E
@@ -3241,7 +3284,7 @@ void op_sla_b(z80_t* state)
 	state->Reg.f = state->Reg.b ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB21
@@ -3252,7 +3295,7 @@ void op_sla_c(z80_t* state)
 	state->Reg.f = state->Reg.c ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB22
@@ -3263,7 +3306,7 @@ void op_sla_d(z80_t* state)
 	state->Reg.f = state->Reg.d ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB23
@@ -3274,7 +3317,7 @@ void op_sla_e(z80_t* state)
 	state->Reg.f = state->Reg.e ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB24
@@ -3285,7 +3328,7 @@ void op_sla_h(z80_t* state)
 	state->Reg.f = state->Reg.h ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB25
@@ -3296,7 +3339,7 @@ void op_sla_l(z80_t* state)
 	state->Reg.f = state->Reg.l ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB26
@@ -3313,7 +3356,7 @@ void op_sla_a(z80_t* state)
 	state->Reg.f = state->Reg.a ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB28
@@ -3325,7 +3368,7 @@ void op_sra_b(z80_t* state)
 	state->Reg.f = state->Reg.b ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB29
@@ -3337,7 +3380,7 @@ void op_sra_c(z80_t* state)
 	state->Reg.f = state->Reg.c ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB2A
@@ -3349,7 +3392,7 @@ void op_sra_d(z80_t* state)
 	state->Reg.f = state->Reg.d ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB2B
@@ -3361,7 +3404,7 @@ void op_sra_e(z80_t* state)
 	state->Reg.f = state->Reg.e ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB2C
@@ -3373,7 +3416,7 @@ void op_sra_h(z80_t* state)
 	state->Reg.f = state->Reg.h ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB2D
@@ -3385,7 +3428,7 @@ void op_sra_l(z80_t* state)
 	state->Reg.f = state->Reg.l ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // OxCB2E
@@ -3399,7 +3442,7 @@ void op_sra_a(z80_t* state)
 	state->Reg.f = state->Reg.a ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB30
@@ -3482,7 +3525,7 @@ void op_srl_b(z80_t* state)
 	state->Reg.f = state->Reg.b ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB39
@@ -3493,7 +3536,7 @@ void op_srl_c(z80_t* state)
 	state->Reg.f = state->Reg.c ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB3A
@@ -3504,7 +3547,7 @@ void op_srl_d(z80_t* state)
 	state->Reg.f = state->Reg.d ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB3B
@@ -3515,7 +3558,7 @@ void op_srl_e(z80_t* state)
 	state->Reg.f = state->Reg.e ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB3C
@@ -3526,7 +3569,7 @@ void op_srl_h(z80_t* state)
 	state->Reg.f = state->Reg.h ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB3D
@@ -3537,7 +3580,7 @@ void op_srl_l(z80_t* state)
 	state->Reg.f = state->Reg.b ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB3E
@@ -3550,7 +3593,7 @@ void op_srl_a(z80_t* state)
 	state->Reg.f = state->Reg.a ? 0 : 0x80;
 	state->Reg.f = (state->Reg.f & 0xEF) + co;
 
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB40
@@ -3560,7 +3603,7 @@ void op_bit_0_b(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.b & 0x01) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB41
@@ -3570,7 +3613,7 @@ void op_bit_0_c(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.c & 0x01) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB42
@@ -3580,7 +3623,7 @@ void op_bit_0_d(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.d & 0x01) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB43
@@ -3590,7 +3633,7 @@ void op_bit_0_e(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.e & 0x01) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB44
@@ -3600,7 +3643,7 @@ void op_bit_0_h(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.h & 0x01) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB45
@@ -3610,7 +3653,7 @@ void op_bit_0_l(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.l & 0x01) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB46
@@ -3620,7 +3663,7 @@ void op_bit_0_m(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (read_byte((state->Reg.h << 8) + state->Reg.l) & 0x01) ? 0 : 0x80;
 
-	state->Reg.m = 3;
+	state->Reg.pc++; state->Reg.m = 3;
 }
 
 // 0xCB47
@@ -3630,7 +3673,7 @@ void op_bit_0_a(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.a & 0x01) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB48
@@ -3640,7 +3683,7 @@ void op_bit_1_b(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.b & 0x02) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB49
@@ -3650,7 +3693,7 @@ void op_bit_1_c(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.c & 0x02) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB4A
@@ -3660,7 +3703,7 @@ void op_bit_1_d(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.d & 0x02) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB4B
@@ -3670,7 +3713,7 @@ void op_bit_1_e(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.e & 0x02) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB4C
@@ -3680,7 +3723,7 @@ void op_bit_1_h(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.h & 0x02) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB4D
@@ -3690,7 +3733,7 @@ void op_bit_1_l(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.l & 0x02) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB4E
@@ -3700,7 +3743,7 @@ void op_bit_1_m(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (read_byte((state->Reg.h << 8) + state->Reg.l) & 0x02) ? 0 : 0x80;
 
-	state->Reg.m = 3;
+	state->Reg.pc++; state->Reg.m = 3;
 }
 
 // 0xCB4F
@@ -3710,7 +3753,7 @@ void op_bit_1_a(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.a & 0x02) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB50
@@ -3720,7 +3763,7 @@ void op_bit_2_b(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.b & 0x04) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB51
@@ -3730,7 +3773,7 @@ void op_bit_2_c(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.c & 0x04) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB52
@@ -3740,7 +3783,7 @@ void op_bit_2_d(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.d & 0x04) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB53
@@ -3750,7 +3793,7 @@ void op_bit_2_e(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.e & 0x04) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB54
@@ -3760,7 +3803,7 @@ void op_bit_2_h(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.h & 0x04) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB55
@@ -3770,7 +3813,7 @@ void op_bit_2_l(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.l & 0x04) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB56
@@ -3780,7 +3823,7 @@ void op_bit_2_m(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (read_byte((state->Reg.h << 8) + state->Reg.l) & 0x04) ? 0 : 0x80;
 
-	state->Reg.m = 3;
+	state->Reg.pc++; state->Reg.m = 3;
 }
 
 // 0xCB57
@@ -3790,7 +3833,7 @@ void op_bit_2_a(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.a & 0x04) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB58
@@ -3800,7 +3843,7 @@ void op_bit_3_b(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.b & 0x08) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB59
@@ -3810,7 +3853,7 @@ void op_bit_3_c(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.c & 0x08) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB5A
@@ -3820,7 +3863,7 @@ void op_bit_3_d(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.d & 0x08) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB5B
@@ -3830,7 +3873,7 @@ void op_bit_3_e(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.e & 0x08) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB5C
@@ -3840,7 +3883,7 @@ void op_bit_3_h(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.h & 0x08) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB5D
@@ -3850,7 +3893,7 @@ void op_bit_3_l(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.l & 0x08) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB5E
@@ -3860,7 +3903,7 @@ void op_bit_3_m(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (read_byte((state->Reg.h << 8) + state->Reg.l) & 0x08) ? 0 : 0x80;
 
-	state->Reg.m = 3;
+	state->Reg.pc++; state->Reg.m = 3;
 }
 
 // 0xCB5F
@@ -3870,7 +3913,7 @@ void op_bit_3_a(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.a & 0x08) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB60
@@ -3880,7 +3923,7 @@ void op_bit_4_b(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.b & 0x10) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB61
@@ -3890,7 +3933,7 @@ void op_bit_4_c(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.c & 0x10) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB62
@@ -3900,7 +3943,7 @@ void op_bit_4_d(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.d & 0x10) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB63
@@ -3910,7 +3953,7 @@ void op_bit_4_e(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.e & 0x10) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB64
@@ -3920,7 +3963,7 @@ void op_bit_4_h(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.h & 0x10) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB65
@@ -3930,7 +3973,7 @@ void op_bit_4_l(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.l & 0x10) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB66
@@ -3940,7 +3983,7 @@ void op_bit_4_m(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (read_byte((state->Reg.h << 8) + state->Reg.l) & 0x10) ? 0 : 0x80;
 
-	state->Reg.m = 3;
+	state->Reg.pc++; state->Reg.m = 3;
 }
 
 // 0xCB67
@@ -3950,7 +3993,7 @@ void op_bit_4_a(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.a & 0x10) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB68
@@ -3960,7 +4003,7 @@ void op_bit_5_b(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.b & 0x20) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB69
@@ -3970,7 +4013,7 @@ void op_bit_5_c(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.c & 0x20) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB6A
@@ -3980,7 +4023,7 @@ void op_bit_5_d(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.d & 0x20) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB6B
@@ -3990,7 +4033,7 @@ void op_bit_5_e(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.e & 0x20) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB6C
@@ -4000,7 +4043,7 @@ void op_bit_5_h(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.h & 0x20) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB6D
@@ -4010,7 +4053,7 @@ void op_bit_5_l(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.l & 0x20) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB6E
@@ -4020,7 +4063,7 @@ void op_bit_5_m(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (read_byte((state->Reg.h << 8) + state->Reg.l) & 0x20) ? 0 : 0x80;
 
-	state->Reg.m = 3;
+	state->Reg.pc++; state->Reg.m = 3;
 }
 
 // 0xCB6F
@@ -4030,7 +4073,7 @@ void op_bit_5_a(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.a & 0x20) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB70
@@ -4040,7 +4083,7 @@ void op_bit_6_b(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.b & 0x40) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB71
@@ -4050,7 +4093,7 @@ void op_bit_6_c(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.c & 0x40) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB72
@@ -4060,7 +4103,7 @@ void op_bit_6_d(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.d & 0x40) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB73
@@ -4070,7 +4113,7 @@ void op_bit_6_e(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.e & 0x40) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB74
@@ -4080,7 +4123,7 @@ void op_bit_6_h(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.h & 0x40) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB75
@@ -4090,7 +4133,7 @@ void op_bit_6_l(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.l & 0x40) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB76
@@ -4100,7 +4143,7 @@ void op_bit_6_m(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (read_byte((state->Reg.h << 8) + state->Reg.l) & 0x40) ? 0 : 0x80;
 
-	state->Reg.m = 3;
+	state->Reg.pc++; state->Reg.m = 3;
 }
 
 // 0xCB77
@@ -4110,7 +4153,7 @@ void op_bit_6_a(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.a & 0x40) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB78
@@ -4120,7 +4163,7 @@ void op_bit_7_b(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.b & 0x80) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB79
@@ -4130,7 +4173,7 @@ void op_bit_7_c(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.c & 0x80) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB7A
@@ -4140,7 +4183,7 @@ void op_bit_7_d(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.d & 0x80) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB7B
@@ -4150,7 +4193,7 @@ void op_bit_7_e(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.e & 0x80) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB7C
@@ -4160,7 +4203,7 @@ void op_bit_7_h(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.h & 0x80) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB7D
@@ -4170,7 +4213,7 @@ void op_bit_7_l(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.l & 0x80) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 // 0xCB7E
@@ -4180,7 +4223,7 @@ void op_bit_7_m(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (read_byte((state->Reg.h << 8) + state->Reg.l) & 0x80) ? 0 : 0x80;
 
-	state->Reg.m = 3;
+	state->Reg.pc++; state->Reg.m = 3;
 }
 
 // 0xCB7F
@@ -4190,7 +4233,7 @@ void op_bit_7_a(z80_t* state)
 	state->Reg.f |= 0x20;
 	state->Reg.f = (state->Reg.a & 0x80) ? 0 : 0x80;
 	
-	state->Reg.m = 2;
+	state->Reg.pc++; state->Reg.m = 2;
 }
 
 void reset(z80_t* state)
